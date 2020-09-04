@@ -1,0 +1,10 @@
+/* .contenido-editar-datos{
+    border-radius: 20px;
+    background: #ffff;
+    border: 1px solid rgb(0, 0, 0);
+} */
+
+.perfil-fondo{
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}   

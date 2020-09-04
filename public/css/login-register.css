@@ -1,0 +1,13 @@
+.form-group .icons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 100px;
+    font-size: 18px;
+}
+.form-group .form-control{
+    border-radius: 15px;
+}
+.rounded{
+    border-radius: 1.25rem!important;
+}
