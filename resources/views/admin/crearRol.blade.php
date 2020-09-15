@@ -76,27 +76,51 @@
                         <strong> Marque o desmarque los permisos que desea asignar al nuevo Rol</strong>
                     </h6>
                     <div class="form-check ">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="1" id="create">
-                        <label class="form-check-label" for="create">
-                            create
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="1" id="Editar datos" checked>
+                        <label class="form-check-label" for="Editar datos">
+                            Editar datos
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="2" id="edit">
-                        <label class="form-check-label" for="edit">
-                            edit
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="2" id="Crear Rol" >
+                        <label class="form-check-label" for="Crear Rol">
+                            Crear Rol
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="3" id="delete">
-                        <label class="form-check-label" for="delete">
-                            delete
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="3" id="Asignar Rol">
+                        <label class="form-check-label" for="Asignar Rol">
+                            Asignar Rol
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="4" id="view">
-                        <label class="form-check-label" for="view">
-                            view
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="4" id="Ver medicos centro">
+                        <label class="form-check-label" for="Ver medicos centro">
+                            Ver medicos centro
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="5" id="Ver citas y filtrar">
+                        <label class="form-check-label" for="Ver citas y filtrar">
+                            Ver citas y filtrar
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="6" id="Agendar Cita">
+                        <label class="form-check-label" for="Agendar Cita">
+                            Agendar Cita
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="7" id="Registrarse como medico">
+                        <label class="form-check-label" for="Registrarse como medico">
+                            Registrarse como medico
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="8" id="Turno">
+                        <label class="form-check-label" for="Turno">
+                            Turno
                         </label>
                     </div>
 

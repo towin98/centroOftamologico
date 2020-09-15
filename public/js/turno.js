@@ -32,21 +32,29 @@ async function crearTurno(formData) {
    });
 
    try {
-      const response = await fetch("turno", {
+      const response = await fetch("turno", {  /* => TurnoController@store*/
          method: "POST",
          headers: myHeader,
          body: formData
-      })
+      }), data = await response.json();
 
       if (response.ok) {
-         //const returnedData = await response.json();
-         let result = await Swal.fire(
-            'Datos guardados!',
-            'Presione ok para continuar!',
-            'success'
-         );
-         if (result.isConfirmed === true) {
-            location.reload();
+         console.log(data)
+         if (data === 'ExisteFecha') {
+            Swal.fire({
+               icon: 'error',
+               title: 'Oops...',
+               text: 'No puedes crear dos turno en un mismo dia, revisa la FECHA',
+            });
+         } else {
+            let result = await Swal.fire(
+               'Datos guardados!',
+               'Presione ok para continuar!',
+               'success'
+            );
+            if (result.isConfirmed === true) {
+               location.reload();
+            }
          }
 
       } else {

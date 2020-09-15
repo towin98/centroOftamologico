@@ -83,6 +83,7 @@
                         </label>
                         <i class="fas fa-users-cog ml-3 icons"></i>
                         <select id="tipo_sangre" class="form-control pl-5" wire:model="tipo_sangre">
+                            <option></option>
                             <option value="A+">A+</option>
                             <option value="B+">B+</option>
                             <option value="O+">O+</option>

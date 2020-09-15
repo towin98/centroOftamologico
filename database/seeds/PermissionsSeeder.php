@@ -15,6 +15,21 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
+        $permisos = [];
+        array_push($permisos, Permission::create(['name' => 'Editar datos']));
+        array_push($permisos, Permission::create(['name' => 'Crear Rol']));
+        array_push($permisos, Permission::create(['name' => 'Asignar Rol']));
+        array_push($permisos, Permission::create(['name' => 'Ver medicos centro']));
+        array_push($permisos, Permission::create(['name' => 'Ver citas y filtrar']));
+        
+        $administradorRole = Role::create(['name' => 'Administrador']);
+
+        $administradorRole->syncPermissions($permisos); //en caso de querer darle 1 solo permiso a un rol
+
+        Permission::create(['name' => 'Agendar Cita']);
+        Permission::create(['name' => 'Registrarse como medico']);
+        Permission::create(['name' => 'Turno']);     
+/* 
         $permission_array = [];
         array_push($permission_array, Permission::create(['name' => 'create']));
         array_push($permission_array, Permission::create(['name' => 'edit']));
@@ -29,7 +44,7 @@ class PermissionsSeeder extends Seeder
 
         //creamos otro rol
         $viewBooksRole = Role::create(['name' => 'ver libros']);
-        $viewBooksRole->syncPermissions($viewBooksPermission); //en caso de querer darle 1 solo permiso a un rol
+        $viewBooksRole->syncPermissions($viewBooksPermission); //en caso de querer darle 1 solo permiso a un rol */
 
         $userSuperAdmin = User::create([
             'tipo' => 'cc',
@@ -46,9 +61,9 @@ class PermissionsSeeder extends Seeder
             'photo' => 'HHC56aSCWw0rHOZSRqAMZXLQA26LI8XEagyhLreT.jpeg'
         ]);
         //asignando rol
-        $userSuperAdmin->assignRole('super_admin');
+        $userSuperAdmin->assignRole('Administrador');
 
-        $userViewBooks = User::create([
+        /* $userViewBooks = User::create([
             'tipo' => 'cc',
             'documentNumber' => '55',
             'name' => 'test',
@@ -78,7 +93,7 @@ class PermissionsSeeder extends Seeder
             'tipo_sangre' => 'B+',
             'tipo_eps' => 'Sanitas',
             'photo' => 'HHC56aSCWw0rHOZSRqAMZXLQA26LI8XEagyhLreT.jpeg'
-        ]);
+        ]); */
         
     }
 }

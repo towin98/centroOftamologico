@@ -17,10 +17,7 @@ class Cita extends Model
         'user_id',
         'medicoxsede_medico_idmedico',
         'medicoxsede_sede_idsede',
-        'medicoxsede_turno_idturno',
-        'horas_id',
-        'motivo_cita_id',
-
+        //'medicoxsede_turno_idturno',
     ];
     protected $table = 'citas';
 }

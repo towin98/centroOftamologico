@@ -117,6 +117,7 @@
             @yield('editar-datos')
             @yield('foto-perfil')
             @yield('medico-horario')
+            @yield('crearUsuario')
         </main>
     </div>
     <!----sweetalert2-->

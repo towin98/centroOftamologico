@@ -31,7 +31,7 @@ class HomeController extends Controller
         $roles = Role::with('permissions')->get();
         return view('admin.crearRol', compact('menu', 'roles'));
     }
-
+    
     public function asignarRolUser()
     {
         $menu = 'asignarRolUser';

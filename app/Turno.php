@@ -8,6 +8,7 @@ class Turno extends Model
 {
     protected $fillable = [
         'id_user',
+        'id_medico',
         'nombre',
         'dia_turno',
         'hora_inicio',

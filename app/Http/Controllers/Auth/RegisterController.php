@@ -47,6 +47,14 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+
+     public function vistaCrearUsuario()
+     {
+         $menu = 'crearUsuario';
+         return view('admin.crearUsuario',compact('menu'));
+     }
+
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -76,8 +84,9 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'photo' => 'fotos/personPerfil.png',
         ]);
-        $userRolPaciente->assignRole('view_books');
+        $userRolPaciente->assignRole('paciente');
 
         return $userRolPaciente;
     }

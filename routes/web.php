@@ -37,7 +37,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 //routes middleware
-Route::group(['middleware' => ['permission:view|edit|delete|create']], function () {
+Route::group(['middleware' => ['permission:Editar datos']], function () {
 
     Route::resource('/cita', 'CitaController');
 
@@ -56,10 +56,18 @@ Route::group(['middleware' => ['permission:view|edit|delete|create']], function 
     Route::get('medicos-perfil', 'MedicosController@medicos_perfil')->name('medicos-perfil');   //ver medico perfil
     Route::get('medicos-registro', 'MedicosController@medicos_registro')->name('medicos-registro');   //registrar medico
     Route::get('/medico/{idmedico}/{day}', 'MedicosController@show')->name('medico.show'); //indispensable para citas
+   // Route::get('/medico/{fechaDia}', 'MedicosController@show')->name('medico.show'); //indispensable para citas
 
     //editar datos users
     Route::resource('datos-user', 'UsersController');
 
     //turno
     Route::resource('turno', 'TurnoController');
+    //hora
+    Route::get('horas/{fechaDia}/{idMedico}', 'HoraController@show')->name('horas.show'); //indispensable para citas
 });
+
+
+
+
+

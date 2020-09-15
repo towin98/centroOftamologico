@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Medico;
+use App\medicoxsede;
 use App\Turno;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class TurnoController extends Controller
@@ -17,9 +20,9 @@ class TurnoController extends Controller
     public function index()
     {
         $menu = 'medicos-turno';
-        $horarios = Turno::where('id_user', 1)->paginate(8);
+        $horarios = Turno::where('id_user', Auth::user()->id)->paginate(8);
         //return json_encode($horarios);
-        return view('medico.medico-horario',compact('menu','horarios'));
+        return view('medico.medico-horario', compact('menu', 'horarios'));
     }
 
     /**
@@ -39,11 +42,23 @@ class TurnoController extends Controller
      */
     public function store(Request $request) //crea rol
     {
+        $validacionTurno = Turno::where([
+            'id_user' => Auth::user()->id,
+            'dia_turno' => $request->dia_turno
+        ])->get();
+    
+
+        if (count($validacionTurno) !== 0) {
+            return response()->json('ExisteFecha');
+        }
+
+        $idMedico = Medico::where('id_user', Auth::user()->id)->get();
         $validatedData = Validator::make($request->all(), [
 
-            'id_user' => 'required',
+            //'id_user' => 'required',
+            //'id_medico' => 'required',
             'nombre' => 'required',
-            'dia_turno' => 'required|date|unique:turnos',
+            'dia_turno' => 'required|date',
             'hora_inicio' => 'required',
             'hora_fin' => 'required',
             'Noconsultorio' => 'required',
@@ -52,9 +67,22 @@ class TurnoController extends Controller
         if ($validatedData->fails()) {
             return response()->json($validatedData->errors(), 422);
         }
-        Turno::create($request->all());
-        return $request->all();
 
+        $turno = Turno::create([
+            'id_user' => Auth::user()->id,
+            'id_medico' => $idMedico[0]->id,
+            'nombre' => $request->nombre,
+            'dia_turno' => $request->dia_turno,
+            'hora_inicio' => $request->hora_inicio,
+            'hora_fin' => $request->hora_fin,
+            'Noconsultorio' => $request->Noconsultorio,
+        ]);
+        medicoxsede::create([
+            'medico_id' => $idMedico[0]->id,
+            'sede_id' => 1,
+            'turno_id' => $turno->id,
+        ]);
+        return response()->json($turno);
     }
 
     /**

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Cita;
 use App\Evento;
+use App\Hora;
 use App\Medico;
 use App\Turno;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Prophecy\Promise\ReturnPromise;
 
 class MedicosController extends Controller
 {
@@ -26,7 +28,7 @@ class MedicosController extends Controller
     {
         $menu = 'medicos-centro';
         $medicos = Medico::all();
-        return view('medico.medicos-perfil',compact('menu','medicos'));
+        return view('medico.medicos-perfil', compact('menu', 'medicos'));
     }
 
     /**
@@ -37,7 +39,7 @@ class MedicosController extends Controller
     public function medicos_registro()
     {
         $menu = 'medicos-registro';
-        return view('medico.medico-registro',compact('menu'));
+        return view('medico.medico-registro', compact('menu'));
     }
 
 
@@ -59,13 +61,21 @@ class MedicosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($idmedico, $day)
+    //buscamos las horas disponibles por medico 
     {
-        //buscamos las horas disponibles por medico 
+        $resul= Cita::selectRaw('TIME(start) AS start')
+        ->where('medicoxsede_medico_idmedico', $idmedico)
+        ->whereDay('start',$day)
+        ->get();
+        return response()->json($resul);
+
+
+        /*  //buscamos las horas disponibles por medico 
         $resul= Cita::selectRaw('TIME(start) AS start')
         ->where('medico_id', $idmedico)
         ->whereDay('start',$day)
         ->get();
-        return response()->json($resul);
+        return response()->json($resul); */
     }
 
     /**

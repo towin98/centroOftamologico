@@ -73,7 +73,7 @@
             <form id="form-turno">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="hidden" name="id_user" value="{{ Auth::user()->id }}">
+                       {{--  <input type="hidden" name="id_user" value="{{ Auth::user()->id }}"> --}}
 
                         <label for="dia_turno">Ingrese fecha asignar turno</label>
                         <input type="date" name="dia_turno" id="dia_turno" class="form-control"

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\especialidad;
 use App\Medico;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -23,7 +24,7 @@ class MedicosRegistroComponent extends Component
     public function render()
     {
         return view('livewire.medicos-registro-component', [
-            'medicos' => Medico::orderBy('id', 'desc')->paginate(5)
+            'medicos' => Medico::where('id_user', Auth::user()->id)->orderBy('id', 'desc')->paginate(5)
         ]);
     }
 
@@ -42,11 +43,11 @@ class MedicosRegistroComponent extends Component
             'descripcion_perfil' => 'required|max:255',
             'photo' => 'required',
         ]);
-
         Medico::create([
             'nombres' => $this->nombres,
             'apellidos' => $this->apellidos,
             'id_especialidad' =>  $this->id_especialidad,
+            'id_user' => Auth::user()->id,
             'descripcion_perfil' => $this->descripcion_perfil,
             'photo' => $this->photo->store('fotos', 'public'),
         ]);
@@ -69,8 +70,6 @@ class MedicosRegistroComponent extends Component
     }
     public function update()
     {
-
-
         $this->validate([
             'nombres' => 'required|min:3',
             'apellidos' => 'required|min:3',

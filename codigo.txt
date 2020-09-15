@@ -1,0 +1,50 @@
+fetch('medico/' + idmedico + '/' + day)
+                .then(response => {
+                    if (!response.ok) throw Error(response.status);
+                    return response;
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data) {
+                        console.log(data)
+
+                        quitar_final = data
+
+
+                        fetch("fullcalendar/horas.json", {
+                            headers: {
+                                "Accept": "application/json"
+                            }
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+
+
+                                let array_new = [];
+                                for (let i in data.horas) {
+
+                                    let igual = false;
+                                    for (let j in quitar_final) {
+
+                                        if (data.horas[i].tiempo == quitar_final[j].start) {
+                                            igual = true;
+                                        }
+                                    }
+                                    if (igual == false) {
+                                        array_new.push(data.horas[i].tiempo);
+                                    }
+                                }
+
+                                for (let i in array_new) {
+
+                                    let opt = d.createElement("option");// creamos un elemento de tipo option
+                                    opt.value = array_new[i];// le damos un valor
+                                    opt.textContent = array_new[i];// le ponemos un texto
+                                    $horaSelectt.add(opt);// lo agregamos al select
+                                }
+                                console.log(array_new)
+                            });
+                    }
+                })
+                .catch(error => console.log(error));

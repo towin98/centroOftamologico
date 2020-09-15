@@ -133,6 +133,7 @@ class HorasSeeder extends Seeder
             'id_user' => 1,
             'nombre' => 'Jueves',
             'dia_turno' => '2020-08-27',
+            'id_medico' => 1,
             'hora_inicio' => '08:00:00',
             'hora_fin' => '17:00:00',
             'Noconsultorio' => '202 B',

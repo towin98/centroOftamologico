@@ -19,7 +19,7 @@
         </label>
         <input type="file" class="form-control pl-5" id="photo" wire:model="photo" required>
 
-        <div wire:loading wire:target="photo" class="text-danger">Cargando...</div>
+        <div wire:loading wire:target="photo" class="text-danger bg-warning w-100 h4">Cargando...</div>
 
         @error('photo')
         <span class="text-danger">{{ $message }} </span>

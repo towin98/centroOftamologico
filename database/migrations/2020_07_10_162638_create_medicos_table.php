@@ -26,7 +26,7 @@ class CreateMedicosTable extends Migration
             $table->string('nombres',30);
             $table->string('apellidos',30);
             $table->unsignedBigInteger('id_especialidad');
-            $table->unsignedBigInteger('id_user')->nullable();  //quitar nullable
+            $table->unsignedBigInteger('id_user')->nullable();  //quitar nullable a futuro, para pruebas dejar
 
             $table->text('descripcion_perfil',255);
             $table->string('photo');

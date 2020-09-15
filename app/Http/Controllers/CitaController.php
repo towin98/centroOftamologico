@@ -8,8 +8,7 @@ use App\Medico;
 use App\MotivoCita;
 use Carbon\Carbon;
 use Facade\FlareClient\Time\Time;
-
-
+use Illuminate\Support\Facades\Auth;
 
 class CitaController extends Controller
 {
@@ -28,7 +27,7 @@ class CitaController extends Controller
         $medico = Medico::all();
         $motivos = MotivoCita::all();
         $menu = 'cita';
-        return view('eventos.evento', compact('medico','menu','motivos'));
+        return view('eventos.evento', compact('medico', 'menu', 'motivos'));
     }
 
     /**
@@ -54,7 +53,20 @@ class CitaController extends Controller
         //$datosEvento=request()->all();
         //echo json_encode($datosEvento);
 
-        $result = Cita::create(request()->all());
+        $result = Cita::create([
+            'title' => $request->title,
+            'descripcion' => $request->descripcion,
+            'color' => $request->color,
+            'remiteEPS' => $request->remiteEPS,
+            'fecha_cita' => $request->fecha_cita,
+            'start' => $request->start,
+            'end' => $request->end,
+            'user_id' => Auth::user()->id,
+            'medicoxsede_medico_idmedico' => $request->medicoxsede_medico_idmedico,
+            'medicoxsede_sede_idsede' => 1,
+            //'medicoxsede_turno_idturno' => 11, //borrar siguiente migrate
+
+        ]);
         return response()->json($result);
     }
 
@@ -67,7 +79,7 @@ class CitaController extends Controller
     public function show($id)
     {
         //desplegar inf
-        $eventos = Cita::all();
+        $eventos = Cita::where('user_id', Auth::user()->id)->get();
         return $eventos;
     }
 

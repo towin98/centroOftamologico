@@ -46,77 +46,78 @@
                         <div class="row">
                             <div class="col-sm-6 col-md-6">
                                 <label for="medico_id">Medico</label>
-                                <select class="form-control" name="medico_id" id="medico_id" required>
+                                <select class="form-control" name="medicoxsede_medico_idmedico" id="medico_id" required>
                                     <option value="">Seleccione</option>
                                     @foreach ($medico as $medic)
-                                    <option value="{{$medic->id}}">{{$medic->nombres." ".$medic->apellidos  }}</option>
+                                        <option value="{{$medic->id}}">{{$medic->nombres." ".$medic->apellidos  }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <!----agregado---->
                             <div class="col-sm-6 col-md-6">
                                 <label for="motivo_cita">Motivo de la cita</label>
-                                <select class="form-control" name="motivo-cita" id="motivo_cita" required>
+                                <select class="form-control" name="title" id="motivo_cita" required>
                                     <option value="">Seleccione</option>
                                     @foreach ($motivos as $motivo)
-                                        <option value="{{ $motivo->id }}">{{ $motivo->nombreasunto }}</option>
+                                    <option value="{{ $motivo->id }}">{{ $motivo->nombreasunto }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <!----end agg--->
                         </div>
                     </div>
-                        
-                        
-                        <div class="row">                            
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="start">Dia de la cita:</label> 
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <input type="date" class="form-control" name="start" id="start">
-                                </div>
-                            </div>
 
-                        </div>
-                        <div class="row">
-                            <!----agregado---->
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="hora">Seleccione Hora:</label>
-                                    <select class="form-control" name="hora" id="hora" required>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <!----agregado---->
 
-                            <div class="col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="hora">Remite EPS</label>
-                                    <select class="form-control" name="hora" id="hora" required>
-                                    </select>
-                                </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="start">Dia de la cita:</label>
                             </div>
                         </div>
-                        
-                            <div class="form-group">        
-                                <label for="title">Titulo:</label>
-                                <input type="text" class="form-control" name="title" id="title" placeholder="Titulo">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <p id="start_mostrar"></p>
+                                <input type="hidden" class="form-control" name="start" id="start" readonly >
                             </div>
-                        
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!----agregado---->
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="hora">Seleccione Hora:</label>
+                                <select class="form-control" name="hora" id="hora" required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!----agregado---->
+
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="remiteEPS">Remite EPS</label>
+                                <select class="form-control" name="remiteEPS" id="remiteEPS" required>
+                                    <option value="">EPS</option>
+                                    <option value="Sanitas">Sanitas</option>
+                                    <option value="Comfamiliar">Comfamiliar</option>
+                                    <option value="Nueva EPS">Nueva Eps</option>
+                                    <option value="Comparta">Comparta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="form-group">
+                        <label for="title">Titulo:</label>
+                        <input type="text" class="form-control" name="title" id="title" placeholder="Titulo">
+                    </div> --}}
 
                     <input type="hidden" class="form-control" name="end" id="end">
-                    
+
                     <div class="form-group">
                         <textarea name="descripcion" class="form-control" id="descripcion" cols="30"
-                        rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="color">Color</label>
-                        <input type="color" class="form-control" name="color" id="color">
+                            rows="4" placeholder="¿Agregar algun dato mas? opcional*"></textarea>
                     </div>
                 </div>
 

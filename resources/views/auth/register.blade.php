@@ -146,9 +146,6 @@
                                         href="{{ route('login') }}" class="text-dark font-weight-bold">Inicia sesión</a></p>
                             </div>
 
-
-
-
                         </div>
                     </form>
                 </div>

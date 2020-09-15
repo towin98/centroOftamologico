@@ -59,9 +59,10 @@ document.addEventListener('click', async (e) => {
     try {
       let res = await fetch('editRol/' + e.target.dataset.id),
         data = await res.json();
-      resetSelectPermissions();
-      data.permissions.forEach(element => {
-
+        resetSelectPermissions();
+        data.permissions.forEach(element => {
+          console.log(element)
+          
         document.getElementById(element.name).checked = true;
 
       });
@@ -72,7 +73,7 @@ document.addEventListener('click', async (e) => {
       $('#modalCrearRol').modal();
 
     } catch (err) {
-      alert('Algo salio al edit Rol')
+      alert('Algo salio al edit Rol'+err)
     }
 
   }
@@ -125,9 +126,10 @@ function clear() {
 function resetSelectPermissions() {
 
   checkboxes = document.getElementsByTagName('input'); //obtenemos todos los controles del tipo Input
+  console.log(checkboxes)
   for (i = 0; i < checkboxes.length; i++) //recoremos todos los controles
   {
-    if (checkboxes[i].type == "checkbox") //solo si es un checkbox entramos
+    if (checkboxes[i].type === "checkbox" && checkboxes[i].id !== "Editar datos" ) //solo si es un checkbox entramos
     {
       checkboxes[i].checked = false; //si es un checkbox le damos el valor del checkbox que lo llamó (Marcar/Desmarcar Todos)
     }
