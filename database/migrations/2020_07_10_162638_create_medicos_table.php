@@ -23,12 +23,10 @@ class CreateMedicosTable extends Migration
 
         Schema::create('medicos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombres',30);
-            $table->string('apellidos',30);
-            $table->unsignedBigInteger('id_especialidad');
+            $table->unsignedBigInteger('id_especialidad')->nullable();
             $table->unsignedBigInteger('id_user')->nullable();  //quitar nullable a futuro, para pruebas dejar
 
-            $table->text('descripcion_perfil',255);
+            $table->text('descripcion_perfil',255)->nullable();
             $table->string('photo');
             $table->timestamps();
                         

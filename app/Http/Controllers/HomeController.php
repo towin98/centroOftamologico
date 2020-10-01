@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Medico;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Variable;
 use Spatie\Permission\Models\Permission;
@@ -31,7 +33,13 @@ class HomeController extends Controller
         $roles = Role::with('permissions')->get();
         return view('admin.crearRol', compact('menu', 'roles'));
     }
-    
+
+    public function vistaCrearUsuario() //admin
+    {
+        $menu = 'crearUsuario';
+        return view('admin.crearUsuario', compact('menu'));
+    }
+
     public function asignarRolUser()
     {
         $menu = 'asignarRolUser';
@@ -53,9 +61,23 @@ class HomeController extends Controller
             $user->removeRole($request->rolAnterior);
             $user->assignRole($request->name);
 
+            if ($request->name === '2') {
+                $medico = Medico::where('id_user',$request->id)->get();
+                if (count($medico) === 0) {
+                    Medico::create([
+                        'id_user' => $request->id,
+                        'photo' => 'fotos/personPerfil.png',
+                    ]);
+                }   
+            }
+            if ($request->rolAnterior == 'Medico') {
+                $medico = Medico::where('id_user',$request->id)->get();
+                Medico::destroy($medico[0]->id);                 
+            }
+
             return response()->json($request);
-        } catch (\Throwable $th) {
-            return response()->json($th); //me genera json vacio
+        } catch (Exception $e) {
+            return response()->json($e); //me genera json vacio
         }
     }
 
@@ -84,7 +106,7 @@ class HomeController extends Controller
 
     public function UpdateRol(Request $request, $id) //update rol
     {
-    
+
         $roles = Role::findOrFail($id);
         $roles->update([
             'name' => $request->name,
@@ -92,8 +114,6 @@ class HomeController extends Controller
         ]);
         $roles->permissions()->sync($request->permission_id);
         return redirect()->back();
-
-      
     }
 
     public function eliminarRol($id) //update rol

@@ -22,9 +22,9 @@
         </div>
 
         <div class="table-responsive-sm mt-2">
-            <table class="table table-striped"">
+            <table class="table table-striped table-bordered">
                 <thead>
-                <tr>
+                <tr class="table-primary">
                     <th scope=" col">Nombre Rol</th>
                 <th scope="col">Permisos</th>
                 <th scope="col">Acción</th>
@@ -102,25 +102,39 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="permission_id[]" value="5" id="Ver citas y filtrar">
                         <label class="form-check-label" for="Ver citas y filtrar">
-                            Ver citas y filtrar
+                            Ver citas y filtrar <strong>* fase de programacion*</strong>
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="6" id="Agendar Cita">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="6" id="Crear Usuarios">
+                        <label class="form-check-label" for="Crear Usuarios">
+                            Crear Usuarios
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="7" id="Agendar Cita">
                         <label class="form-check-label" for="Agendar Cita">
                             Agendar Cita
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="7" id="Registrarse como medico">
-                        <label class="form-check-label" for="Registrarse como medico">
-                            Registrarse como medico
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="8" id="Crear agenda">
+                        <label class="form-check-label" for="Crear agenda">
+                            Crear agenda
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="9" id="Consultorios">
+                        <label class="form-check-label" for="Consultorios">
+                            Consultorios
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="8" id="Turno">
-                        <label class="form-check-label" for="Turno">
-                            Turno
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="10" id="Asunto cita">
+                        <label class="form-check-label" for="Asunto cita">
+                            Asunto cita
                         </label>
                     </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\MotivoCita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MotivoCitaController extends Controller
 {
@@ -14,7 +15,9 @@ class MotivoCitaController extends Controller
      */
     public function index()
     {
-        //
+        $menu = 'motivoCita';
+        $motivoCitas = MotivoCita::paginate(6);
+        return view('admin.motivo-Cita', compact('motivoCitas', 'menu'));
     }
 
     /**
@@ -35,7 +38,17 @@ class MotivoCitaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = Validator::make($request->all(), [
+            'nombreasunto' => 'required',
+        ]);
+        if ($validatedData->fails()) {
+            return response()->json($validatedData->errors(), 422);
+        }
+
+        $motivoCita = MotivoCita::create([
+            'nombreasunto' => $request->nombreasunto,
+        ]);
+        return response()->json($motivoCita);
     }
 
     /**
@@ -55,9 +68,10 @@ class MotivoCitaController extends Controller
      * @param  \App\MotivoCita  $motivoCita
      * @return \Illuminate\Http\Response
      */
-    public function edit(MotivoCita $motivoCita)
+    public function edit($id)
     {
-        //
+        $asunto = MotivoCita::findOrFail($id);
+        return response()->json($asunto);
     }
 
     /**
@@ -67,9 +81,13 @@ class MotivoCitaController extends Controller
      * @param  \App\MotivoCita  $motivoCita
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MotivoCita $motivoCita)
+    public function update(Request $request, $id)
     {
-        //
+        $motivoCitas = MotivoCita::findOrFail($id);
+        $motivoCitas->update([
+            'nombreasunto' => $request->nombreasunto,
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -78,8 +96,9 @@ class MotivoCitaController extends Controller
      * @param  \App\MotivoCita  $motivoCita
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MotivoCita $motivoCita)
+    public function destroy($id) 
     {
-        //
+        MotivoCita::destroy($id);
+        return response()->json($id);
     }
 }

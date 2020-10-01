@@ -21,16 +21,5 @@ class MedicosSeeder extends Seeder
                 'name' => $name
             ]);
         }
-    
-        foreach ($array as $name => $value) {
-            Medico::create([
-                'nombres' => Str::random(10),
-                'apellidos' => Str::random(10),
-                'id_especialidad' => $value,
-                'id_user' => null,
-                'descripcion_perfil' => Str::random(20),
-                'photo' => 'HHC56aSCWw0rHOZSRqAMZXLQA26LI8XEagyhLreT.jpeg'
-            ]);
-        }
     }
 }

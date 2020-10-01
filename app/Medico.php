@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Medico extends Model
 {
     protected $fillable = [
-        'nombres',
-        'apellidos',
-        'id_user',
         'id_especialidad',
+        'id_user',
         'descripcion_perfil',
         'photo',
     ];

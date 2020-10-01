@@ -8,9 +8,9 @@
             <h2 class="text-center">Asignar roles</h2>
         </div>
         <div class="table-responsive-sm">
-            <table class="table table-striped">
+            <table class="table table-bordered table-striped">
                 <thead>
-                <tr>
+                <tr class="table-primary">
                     <th scope=" col">Nombre usuario</th>
                     <th scope="col">Email</th>
                     <th scope="col">Rol asignado</th>

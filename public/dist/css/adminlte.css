@@ -18884,12 +18884,12 @@ html.maximized-card {
 .alert-default-secondary .alert-link {
   color: #202326;
 }
-
+/* 
 .alert-success {
   color: #ffffff;
   background: #28a745;
   border-color: #23923d;
-}
+} */
 
 .alert-default-success {
   color: #155724;
@@ -18945,11 +18945,11 @@ html.maximized-card {
   color: #533f03;
 }
 
-.alert-danger {
+/* .alert-danger {
   color: #ffffff;
   background: #dc3545;
   border-color: #d32535;
-}
+} */
 
 .alert-default-danger {
   color: #721c24;

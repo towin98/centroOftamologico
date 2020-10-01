@@ -9,6 +9,7 @@ use App\MotivoCita;
 use Carbon\Carbon;
 use Facade\FlareClient\Time\Time;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CitaController extends Controller
 {
@@ -24,10 +25,13 @@ class CitaController extends Controller
 
     public function index()
     {
-        $medico = Medico::all();
+        $medicos = DB::table('medicos')
+            ->join('users', 'medicos.id_user', '=', 'users.id')
+            ->select('medicos.id', 'users.name', 'users.lastname')
+            ->get();
         $motivos = MotivoCita::all();
         $menu = 'cita';
-        return view('eventos.evento', compact('medico', 'menu', 'motivos'));
+        return view('eventos.evento', compact('medicos', 'menu', 'motivos'));
     }
 
     /**
@@ -49,10 +53,6 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
-        //toda la informacion que esta en el metodo request
-        //$datosEvento=request()->all();
-        //echo json_encode($datosEvento);
-
         $result = Cita::create([
             'title' => $request->title,
             'descripcion' => $request->descripcion,
@@ -62,10 +62,7 @@ class CitaController extends Controller
             'start' => $request->start,
             'end' => $request->end,
             'user_id' => Auth::user()->id,
-            'medicoxsede_medico_idmedico' => $request->medicoxsede_medico_idmedico,
-            'medicoxsede_sede_idsede' => 1,
-            //'medicoxsede_turno_idturno' => 11, //borrar siguiente migrate
-
+            'id_medico' => $request->medico,
         ]);
         return response()->json($result);
     }
@@ -79,7 +76,23 @@ class CitaController extends Controller
     public function show($id)
     {
         //desplegar inf
-        $eventos = Cita::where('user_id', Auth::user()->id)->get();
+        $eventos = DB::table('citas')
+            ->join('motivo_citas', 'motivo_citas.id', '=', 'citas.title')
+            ->where('citas.user_id', Auth::user()->id)
+            ->select(
+                'citas.id',
+                'motivo_citas.nombreasunto as title',
+                'citas.id_medico', 
+                'citas.descripcion',
+                'citas.color',
+                'citas.remiteEPS',
+                'citas.fecha_cita',
+                'citas.start',
+                'citas.end',
+                'citas.user_id',
+                'citas.title as id_title'
+            )
+            ->get();
         return $eventos;
     }
 
@@ -91,12 +104,10 @@ class CitaController extends Controller
      */
     public function edit($id)
     {
-        //$start = Evento::all('start');
         $hora_hoy = Cita::selectRaw('TIME(start) AS start, TIME(end) AS end')
             ->whereDay('start', $id)
             ->get();
         return response()->json($hora_hoy);
-        //SELECT start FROM eventos WHERE DAY(start) = 06
         //SELECT DATE(`date_time_field`) AS date_part, TIME(`date_time_field`) AS time_part FROM `your_table`
     }
 
@@ -121,7 +132,6 @@ class CitaController extends Controller
      */
     public function destroy($id)
     {
-        //$eventos = evento::findOrFail($id); //aqui buscamos el primer resultado con el id
         Cita::destroy($id);
         return response()->json($id);
     }

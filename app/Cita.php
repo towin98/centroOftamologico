@@ -8,6 +8,7 @@ class Cita extends Model
 {
     protected $fillable = [
         'title',
+        'id_medico',
         'descripcion',
         'color',
         'remiteEPS',
@@ -15,9 +16,7 @@ class Cita extends Model
         'start',
         'end',
         'user_id',
-        'medicoxsede_medico_idmedico',
-        'medicoxsede_sede_idsede',
-        //'medicoxsede_turno_idturno',
+
     ];
     protected $table = 'citas';
 }

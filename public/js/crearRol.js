@@ -41,7 +41,6 @@ formRol.addEventListener("submit", async (e) => {//formulario modal
       body: dataForm
     }
 
-
     let res = await fetch('creaRol.store', url),
       data = await res.json();
     if (data != 'Existe') {

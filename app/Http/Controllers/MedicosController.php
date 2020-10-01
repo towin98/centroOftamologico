@@ -9,6 +9,7 @@ use App\Medico;
 use App\Turno;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Prophecy\Promise\ReturnPromise;
 
 class MedicosController extends Controller
@@ -27,7 +28,10 @@ class MedicosController extends Controller
     public function medicos_perfil()
     {
         $menu = 'medicos-centro';
-        $medicos = Medico::all();
+        $medicos = DB::table('medicos')
+            ->join('users', 'medicos.id_user', '=', 'users.id')
+            ->select('users.name', 'users.lastname','users.photo')
+            ->get();
         return view('medico.medicos-perfil', compact('menu', 'medicos'));
     }
 
@@ -64,7 +68,7 @@ class MedicosController extends Controller
     //buscamos las horas disponibles por medico 
     {
         $resul= Cita::selectRaw('TIME(start) AS start')
-        ->where('medicoxsede_medico_idmedico', $idmedico)
+        ->where('id_medico', $idmedico)
         ->whereDay('start',$day)
         ->get();
         return response()->json($resul);

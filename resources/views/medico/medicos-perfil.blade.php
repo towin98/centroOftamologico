@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('medico-crud')
+@section('medicos-centro')
 
 <style>
     .card:hover {
@@ -19,8 +19,8 @@
             <div class="card-medicos mb-4">
                 <img class="card-img-top" src="{{ asset('storage/'.$medico->photo) }}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{{$medico->nombres}}</h5>
-                    <p class="card-text">{{$medico->descripcion}}</p>
+                    <h5 class="card-title">{{$medico->name}}</h5>
+                    <p class="card-text">{{$medico->lastname}}</p>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Last updated 3 mins ago</small>

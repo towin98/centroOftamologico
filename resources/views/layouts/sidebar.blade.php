@@ -44,17 +44,38 @@
         </li>
         @endcan
 
-        @canany(['Crear Rol','Asignar Rol']) {{-- si tiene alguno de estos permisos --}}
         <li class="nav-header">Usuarios</li>
-
+        @can('Agendar Cita')
         <li class="nav-item">
-          <a href="{{-- {{ route('crearUsuario') }} --}}"
-            class="nav-link {{-- @if ($menu == 'crearUsuario') {{ 'active' }}  @endif --}}">
+          <a href="{{ route('cita.index') }}" class="nav-link @if ($menu == 'cita') {{ 'active' }}  @endif">
+            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+            <p>
+              Citas medicas
+              <span class="badge badge-info right">2</span>
+            </p>
+          </a>
+        </li>
+        @endcan
+        @can('Asunto cita')
+        <li class="nav-item">
+          <a href="{{ route('Asunto-cita.index') }}"
+            class="nav-link @if ($menu == 'motivoCita') {{ 'active' }}  @endif">
+            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+            <p>Asunto Cita</p>
+          </a>
+        </li>
+        @endcan
+        @can('Crear Usuarios')
+        <li class="nav-item">
+          <a href="{{ route('vistaCrearUsuario') }}"
+            class="nav-link @if ($menu == 'crearUsuario') {{ 'active' }}  @endif">
             <i class="far fa-circle nav-icon"></i>
             <p>Crear Usuario</p>
           </a>
         </li>
-        
+        @endcan
+
+        @canany(['Crear Rol','Asignar Rol']) {{-- si tiene alguno de estos permisos --}}
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon far fa-envelope"></i>
@@ -85,20 +106,25 @@
           </ul>
         </li>
         @endcan
-
         
-
-
-
-
+        @can('Ver citas y filtrar')
         <li class="nav-header">Medicos</li>
-        @can('Registrarse como medico')
         <li class="nav-item">
-          <a href=" {{ route('medicos-registro') }} "
-            class="nav-link @if ($menu == 'medicos-registro') {{ 'active' }}  @endif">
+          <a href=" {{ route('citas-agendadas') }} " class="nav-link @if ($menu == 'citas-agendadas') {{ 'active' }}  @endif">
             <i class="nav-icon fas fa-chalkboard-teacher"></i>
             <p>
-              Registrar medicos
+              Citas agendadas
+            </p>
+          </a>
+        </li>
+        @endcan
+
+        @can('Consultorios')
+        <li class="nav-item">
+          <a href=" {{ route('consultorios') }} " class="nav-link @if ($menu == 'consultorios') {{ 'active' }}  @endif">
+            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+            <p>
+              Consultorios
             </p>
           </a>
         </li>
@@ -114,30 +140,19 @@
           </a>
         </li>
         @endcan
-        @can('Turno')
+        @can('Crear agenda')
         <li class="nav-item">
           <a href="{{ route('turno.index') }}" class="nav-link
-          @if ($menu == 'turno-horario') {{ 'active' }}  @endif">
+          @if ($menu == 'medicos-turno') {{ 'active' }}  @endif">
             <i class="nav-icon fas fa-users"></i>
             <p>
-              Turno.
+              Crear Agenda
             </p>
           </a>
         </li>
         @endcan
 
         <li class="nav-header">MENU</li>
-        @can('Agendar Cita')
-        <li class="nav-item">
-          <a href="{{ route('cita.index') }}" class="nav-link @if ($menu == 'cita') {{ 'active' }}  @endif">
-            <i class="nav-icon fas fa-chalkboard-teacher"></i>
-            <p>
-              Citas medicas
-              <span class="badge badge-info right">2</span>
-            </p>
-          </a>
-        </li>
-        @endcan
         <li class="nav-item">
           <a href="#" class="nav-link  @if ($menu == 'ubicacion') {{ 'active' }}  @endif">
             <i class="nav-icon fas fa-users"></i>
@@ -154,30 +169,6 @@
             </p>
           </a>
         </li>
-        {{-- <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon far fa-envelope"></i>
-            <p>
-              Ventas
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="registrarventa" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Registrar venta</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="reporteventas" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Reporte ventas</p>
-              </a>
-            </li>
-          </ul>
-        </li> --}}
-
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

@@ -5,17 +5,14 @@
                 <h2 class="text-center">Información personal</h2>
                 <hr>
             </div>
-            <div class="row ">
-
+            <div class="row">
                 <div class="col-sm-4 col-lg-4">
 
                     @if ($photo)
                     <img src="{{ asset('storage').'/'.Auth::user()->photo }}" class="rounded-circle mx-auto d-block"
                         style="width: 10.6rem; height: 10.6rem;">
                     @endif
-
                     <a class="btn btn-dark btn-block" href="{{ route('datos-user.create') }}">Cambiar imagen</a>
-
                 </div>
 
                 <div class="col-sm-4 col-lg-4">
@@ -164,13 +161,22 @@
             <div class="pb-3 d-flex justify-content-end">
                 <button wire:click="store" class="btn btn-primary">Guardar datos</button>
             </div>
-            
-            @if (session()->has('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-            @endif
         </div>
-
     </div>
+    @if (session()->has('camposVacios'))
+    <script>
+        Swal.fire('{{session('camposVacios')}}');
+    </script>
+    @endif
+
+    @if (session()->has('message'))
+    <script>
+        Swal.fire(
+                    '{{ session('message') }}',
+                    'You clicked the button!',
+                    'success'
+                    );
+    </script>
+    @endif
+
 </div>

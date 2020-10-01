@@ -13,5 +13,4 @@
     }
 </style>
 @livewire('edit-datos-component')
-
 @endsection

@@ -122,25 +122,25 @@ class HorasSeeder extends Seeder
             ]);
             $i++;
         }
+        $arrayMotivoCita = array(
+            'Consulta oftalmológica',
+            'Examen Compimetria',
+            'Examen Paquimetria',
+            'Examen Biometria',
+            'Examen Interferometria',
+            'Examen Tomografia',
+            'Topografia',
+            'Iridocmetria',
+            'Angiografia',
+            'Capsutomia',
+            'Ecografia',
+            'Recuentro Entrecelular',
+        );
 
-        Sede::create([
-            'nombre' => 'Centro oftamologico Surcolombiano Neiva',
-            'direccion' => 'Martes',
-            'telefono' => '327236373',
-        ]);
-
-        Turno::create([
-            'id_user' => 1,
-            'nombre' => 'Jueves',
-            'dia_turno' => '2020-08-27',
-            'id_medico' => 1,
-            'hora_inicio' => '08:00:00',
-            'hora_fin' => '17:00:00',
-            'Noconsultorio' => '202 B',
-        ]);
-        
-        MotivoCita::create([
-            'nombreasunto' => 'Revision',
-        ]);
+        foreach ($arrayMotivoCita as $value) {
+            MotivoCita::create([
+                'nombreasunto' => $value,
+            ]);
+        }
     }
 }

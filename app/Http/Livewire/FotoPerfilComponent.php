@@ -26,8 +26,9 @@ class FotoPerfilComponent extends Component
 
         $user = Auth::user();
 
-        Storage::delete("public/".$user->photo);
-
+        if($user->photo !== 'fotos/perfil-undefined/personPerfil.png'){
+            Storage::delete("public/".$user->photo);
+        }
 
         User::findOrFail($user->id)->update([
             'photo' => $this->photo->store('fotos','public'),

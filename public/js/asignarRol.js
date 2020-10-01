@@ -36,7 +36,7 @@ function asignarRol(idUser, rolname) {
 }
 
 
-$formAsignarRol.addEventListener('submit', (e) => {
+$formAsignarRol.addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData($formAsignarRol);
   const myHeader = new Headers({
@@ -47,25 +47,27 @@ $formAsignarRol.addEventListener('submit', (e) => {
     headers: myHeader,
     body: formData
   }
-  fetch('cambiarRolUser', datosUrl)
-    .then(response => {
-      if (!response.ok) throw Error(response.status);
-      return response;
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (Object.entries(data).length != 0) {
-        Swal.fire(
+  let res = await fetch('cambiarRolUser', datosUrl),
+    data = await res.json();
+    console.log(data)
+  try {
+      if (res.ok) {
+        if (data.errorInfo) {
+          alert('Recuerde que este medico no puede ser borrado de los medicos porque aun tiene turnos asignados, solo cambiara el rol')
+        }
+        const menssage = await Swal.fire(
           'Rol modificado!',
           'Correcto!',
           'success'
-        ).then((result) => {
-          location.reload();
-        })
+        );
+        if (menssage.isConfirmed === true) location.reload();
+        else location.reload();
       }
 
-    })
-    .catch(error => console.log(error));
+  } catch (error) {
+    alert(Error + 'Error al actualizar')
+  }
+
 
 })
 

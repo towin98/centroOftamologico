@@ -36,8 +36,11 @@ class EditDatosComponent extends Component
         $this->email = $user->email;
         $this->direccion = $user->direccion;
         $this->photo = $user->photo;
-        
-        return view('livewire.edit-datos-component');
+
+        if (empty($user->tipo_eps) or empty($user->direccion) or empty($user->tipo_sangre)) {
+            session()->flash('camposVacios', 'Por favor completa el formulario con tus datos 😉' );
+        }
+        return view('livewire.edit-datos-component', );
     }
 
     public function store()
@@ -64,11 +67,10 @@ class EditDatosComponent extends Component
             'direccion' => $this->direccion,
             'tipo_sangre' => $this->tipo_sangre,
             'tipo_eps' => $this->tipo_eps,
-            /* 'fotocambia' => $this->fotocambia->store('fotos','public'), */
-            'tipo_sangre' => $this->tipo_sangre,
+           
         ]);
                         //$this->photo->storeAs('photos', $this->photo);
-        session()->flash('message', 'hola' );
+        session()->flash('message', 'Datos actualizados correctamente' );
         
         //$request->file($file)->store('photos');
         //$this->photo->store('photos');//storage/app/photos

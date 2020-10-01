@@ -26,9 +26,15 @@ class PermissionsSeeder extends Seeder
 
         $administradorRole->syncPermissions($permisos); //en caso de querer darle 1 solo permiso a un rol
 
+        Permission::create(['name' => 'Crear Usuarios']);
         Permission::create(['name' => 'Agendar Cita']);
-        Permission::create(['name' => 'Registrarse como medico']);
-        Permission::create(['name' => 'Turno']);     
+        Permission::create(['name' => 'Crear agenda']);  
+        Permission::create(['name' => 'Consultorios']);
+        Permission::create(['name' => 'Asunto cita']);     
+
+        Role::create(['name' => 'Medico']);
+        Role::create(['name' => 'Paciente']);
+        Role::create(['name' => 'Recepción']);
 /* 
         $permission_array = [];
         array_push($permission_array, Permission::create(['name' => 'create']));
@@ -58,7 +64,7 @@ class PermissionsSeeder extends Seeder
             'direccion' => 'Cra 10 #21 - 51',
             'tipo_sangre' => 'B+',
             'tipo_eps' => 'Comparta',
-            'photo' => 'HHC56aSCWw0rHOZSRqAMZXLQA26LI8XEagyhLreT.jpeg'
+            'photo' => 'fotos/personPerfil.png',
         ]);
         //asignando rol
         $userSuperAdmin->assignRole('Administrador');

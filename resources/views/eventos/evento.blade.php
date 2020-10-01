@@ -23,7 +23,6 @@
 <div class="content-wrapper" id="contenido-">
     <div class="mx-auto calendar" id='calendar'></div>
 </div>
-</div>
 
 
 <!-- Modal -->
@@ -40,16 +39,16 @@
             <form id="form_evento" autocomplete="off">
                 <div id="put"></div>
                 <div class="modal-body">
-                    <input type="hidden" name="id" class="form-control" id="id" placeholder="id">
+                    <input type="hidden" name="id" class="form-control" id="id">
 
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-6 col-md-6">
                                 <label for="medico_id">Medico</label>
-                                <select class="form-control" name="medicoxsede_medico_idmedico" id="medico_id" required>
+                                <select class="form-control" name="medico" id="medico_id" required>
                                     <option value="">Seleccione</option>
-                                    @foreach ($medico as $medic)
-                                        <option value="{{$medic->id}}">{{$medic->nombres." ".$medic->apellidos  }}</option>
+                                    @foreach ($medicos as $medico)
+                                        <option value="{{$medico->id}}">{{$medico->name." ".$medico->lastname }}</option>
                                     @endforeach
                                 </select>
                             </div>

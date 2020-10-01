@@ -57,7 +57,7 @@
                     @yield('openSidebar')
                     @endif
 
-                  
+
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
@@ -107,10 +107,13 @@
                 </div>
             </nav>
         </div>
-        
+        <!----sweetalert2-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        @livewireScripts
+
         <main>
             @yield('content')
-            @yield('medico-crud')
+            @yield('medicos-centro')
             @yield('sidebar')
             @yield('crearRol')
             @yield('asignarRolUser')
@@ -118,26 +121,17 @@
             @yield('foto-perfil')
             @yield('medico-horario')
             @yield('crearUsuario')
+            @yield('motivo-cita')
+            @yield('consultorios')
+            @yield('citas-agendadas')
         </main>
     </div>
-    <!----sweetalert2-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 
     @yield('scripts')
     @yield('scripts_Crear_Rol')
     @yield('scripts_Asginar_Rol')
 
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-    
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-    </script>
-    @livewireScripts
 
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
