@@ -1,12 +1,16 @@
-class citasFiltroCalendar {
-    constructor() {
-        
-    }
-}
+
+
 const d = document;
 let calendarEl = d.getElementById('calendar');
 const $nameMedico = d.getElementById('nameMedico');
-const citasFiltro = new citasFiltroCalendar($nameMedico);
+
+d.getElementById('verDocumento').addEventListener('click', (e) =>{
+  $('#staticBackdrop').modal(); 
+});
+d.getElementById('hiddenModal').addEventListener('click', (e) =>{
+  $('#staticBackdrop').removeClass('fade').modal('hide');
+})
+
 let calendar = new FullCalendar.Calendar(calendarEl, {
     
     initialView: 'timeGridWeek',
@@ -36,7 +40,6 @@ let calendar = new FullCalendar.Calendar(calendarEl, {
     events: 'citas-filtro/mostrar', 
 
     eventClick: function (info) {
-      //clearForm()
       const event =info.event.extendedProps
       $('#namePaciente').text(event.nombrePaciente+ " "+ event.apellidoPaciente);
      
@@ -45,7 +48,9 @@ let calendar = new FullCalendar.Calendar(calendarEl, {
       $('#descripcion').text(event.descripcion);
       $('#fechaCita').text(event.fecha_cita);
       $('#eps').text(event.remiteEPS);
-        
+
+      console.log(event.orden)
+      $("#verOrden").attr("src","storage/ordenes/"+event.orden);        
      // $('#color').val(info.event.backgroundColor);
 
       fecha_calendario = info.event.start
@@ -77,7 +82,7 @@ $nameMedico.addEventListener('change', (e) => {
     for (let i = 0; i < events.length; i++) {
       let event = events[i]
       let EventIdMedico = event.extendedProps.id_medico;
-      if (EventIdMedico == idMedico && !event.allDay) {
+      if (EventIdMedico != idMedico && !event.allDay) {
         event.setProp('display', 'none')
       }else{
         event.setProp('display', 'auto')

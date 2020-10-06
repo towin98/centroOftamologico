@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Facade\FlareClient\Time\Time;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CitaController extends Controller
 {
@@ -53,6 +55,25 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->hasFile('orden')) {
+            $file = $request->file('orden');
+            $ruta = public_path() . '/storage/ordenes';
+            $fileName = uniqid() . $file->getClientOriginalName();
+            $file->move($ruta, $fileName);
+        } else {
+            return response()->json('error');
+        }
+
+        $validatedData = Validator::make($request->all(), [
+            'title' => 'required',
+            'medico' => 'required',
+            'remiteEPS' => 'required',
+            'start' => 'required',
+        ]);
+        if ($validatedData->fails()) {
+            return response()->json('error'/* $validatedData->errors(), 422 */);
+        }
+
         $result = Cita::create([
             'title' => $request->title,
             'descripcion' => $request->descripcion,
@@ -63,6 +84,7 @@ class CitaController extends Controller
             'end' => $request->end,
             'user_id' => Auth::user()->id,
             'id_medico' => $request->medico,
+            'orden' => $fileName,
         ]);
         return response()->json($result);
     }
@@ -82,7 +104,7 @@ class CitaController extends Controller
             ->select(
                 'citas.id',
                 'motivo_citas.nombreasunto as title',
-                'citas.id_medico', 
+                'citas.id_medico',
                 'citas.descripcion',
                 'citas.color',
                 'citas.remiteEPS',
@@ -90,7 +112,8 @@ class CitaController extends Controller
                 'citas.start',
                 'citas.end',
                 'citas.user_id',
-                'citas.title as id_title'
+                'citas.title as id_title',
+                'citas.orden'
             )
             ->get();
         return $eventos;
@@ -120,7 +143,30 @@ class CitaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $res = Cita::findOrFail($id)->update($request->all());
+        $fileName = $request->ordenUpdate;
+
+        if ($request->hasFile('orden')) {
+            //luego eliminamos archivo
+            Storage::delete("public/ordenes/".$fileName);
+
+            $file = $request->file('orden');
+            $ruta = public_path() . '/storage/ordenes';
+            $fileName = uniqid() . $file->getClientOriginalName();
+            $file->move($ruta, $fileName);
+        }
+        
+        $res = Cita::findOrFail($id)->update([
+            'title' => $request->title,
+            'descripcion' => $request->descripcion,
+            'color' => $request->color,
+            'remiteEPS' => $request->remiteEPS,
+            'fecha_cita' => $request->fecha_cita,
+            'start' => $request->start,
+            'end' => $request->end,
+            'user_id' => Auth::user()->id,
+            'id_medico' => $request->medico,
+            'orden' => $fileName,
+        ]);
         return response()->json($res);
     }
 
@@ -132,7 +178,9 @@ class CitaController extends Controller
      */
     public function destroy($id)
     {
+        $cita = Cita::where('id',$id)->get();
+        Storage::delete("public/ordenes/".$cita[0]->orden);
         Cita::destroy($id);
-        return response()->json($id);
+        return response()->json(true);        
     }
 }

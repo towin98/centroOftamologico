@@ -3,7 +3,7 @@
 
 <div class="content-wrapper">
 
-   <div class="container-fluid pl-5 pr-5">
+    <div class="container-fluid pl-5 pr-5">
         <!-- Button trigger modal -->
         <div class="pt-2 pb-2 position-relative">
             <div class="position-absolute" style="
@@ -12,7 +12,7 @@
             text-align: center;">
                 <h2>Crear rol</h2>
             </div>
-       
+
             <div class="position-relative">
                 <button type="button" class="btn btn-primary" id="crearRol"
                     {{-- data-toggle="modal" data-target="#modalCrearRol" --}}>
@@ -24,30 +24,33 @@
         <div class="table-responsive-sm mt-2">
             <table class="table table-striped table-bordered">
                 <thead>
-                <tr class="table-primary">
-                    <th scope=" col">Nombre Rol</th>
-                <th scope="col">Permisos</th>
-                <th scope="col">Acción</th>
-                </tr>
+                    <tr class="table-primary">
+                        <th scope=" col">Nombre Rol</th>
+                        <th scope="col">Permisos</th>
+                        <th style="width: 10px;">Editar</th>
+                        <th style="width: 10px;">Eliminar</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($roles as $rol)
-       
+
                     <tr>
                         <th>{{$rol->name}}</th>
                         <td>{{  implode(', ',$rol->permissions->pluck('name')->toArray())}}</th>
                         <td>
-                            <button type="button" id="btnEliminarRol" class="btn btn-danger"
-                                data-id="{{$rol->id}}">Borrar</button>
-                            <button type="button" id="btn-editar-rol" class="btn btn-success"
-                                data-id="{{$rol->id}}">Editar</button>
+                            <button type="button" id="btn-editar-rol" class="fas fa-edit btn btn-success"
+                                data-id="{{$rol->id}}"></button>
+                        </td>
+                        <td>
+                            <button type="button" id="btnEliminarRol" class="far fa-trash-alt btn btn-danger"
+                                data-id="{{$rol->id}}"></button>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-   </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -76,63 +79,72 @@
                         <strong> Marque o desmarque los permisos que desea asignar al nuevo Rol</strong>
                     </h6>
                     <div class="form-check ">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="1" id="Editar datos" checked>
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="1"
+                            id="Editar datos" checked>
                         <label class="form-check-label" for="Editar datos">
                             Editar datos
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="2" id="Crear Rol" >
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="2" id="Crear Rol">
                         <label class="form-check-label" for="Crear Rol">
                             Crear Rol
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="3" id="Asignar Rol">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="3"
+                            id="Asignar Rol">
                         <label class="form-check-label" for="Asignar Rol">
                             Asignar Rol
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="4" id="Ver medicos centro">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="4"
+                            id="Ver medicos centro">
                         <label class="form-check-label" for="Ver medicos centro">
                             Ver medicos centro
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="5" id="Ver citas y filtrar">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="5"
+                            id="Ver citas y filtrar">
                         <label class="form-check-label" for="Ver citas y filtrar">
-                            Ver citas y filtrar <strong>* fase de programacion*</strong>
+                            Ver citas y filtrar
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="6" id="Crear Usuarios">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="6"
+                            id="Crear Usuarios">
                         <label class="form-check-label" for="Crear Usuarios">
                             Crear Usuarios
                         </label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="7" id="Agendar Cita">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="7"
+                            id="Agendar Cita">
                         <label class="form-check-label" for="Agendar Cita">
                             Agendar Cita
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="8" id="Crear agenda">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="8"
+                            id="Crear agenda">
                         <label class="form-check-label" for="Crear agenda">
                             Crear agenda
                         </label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="9" id="Consultorios">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="9"
+                            id="Consultorios">
                         <label class="form-check-label" for="Consultorios">
                             Consultorios
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="10" id="Asunto cita">
+                        <input class="form-check-input" type="checkbox" name="permission_id[]" value="10"
+                            id="Asunto cita">
                         <label class="form-check-label" for="Asunto cita">
                             Asunto cita
                         </label>

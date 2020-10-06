@@ -47,11 +47,15 @@ Route::group(['middleware' => ['permission:Crear Rol']], function () {
     Route::get('/editRol/{id}', 'HomeController@editRol')->name('editRol');
     Route::delete('/eliminar-Rol/{id}', 'HomeController@eliminarRol')->name('eliminar-Rol');
 
-    Route::get('/asignarRolUser', 'HomeController@asignarRolUser')->name('asignarRolUser');
-    Route::get('/asignarRolUserEdit', 'HomeController@asignarRolUserEdit')->name('asignarRolUserEdit');
+
     Route::post('/cambiarRolUser', 'HomeController@cambiarRolUser')->name('cambiarRolUser');
 });
 
+Route::group(['middleware' => ['permission:Asignar Rol']], function () {
+
+    Route::get('/asignarRolUser', 'HomeController@asignarRolUser')->name('asignarRolUser');
+    Route::get('/asignarRolUserEdit', 'HomeController@asignarRolUserEdit')->name('asignarRolUserEdit');
+});
 //mostrar medicos
 Route::get('medicos-perfil', 'MedicosController@medicos_perfil')->name('medicos-perfil');   //ver medico perfil
 

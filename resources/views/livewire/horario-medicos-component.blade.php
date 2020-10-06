@@ -14,7 +14,7 @@
                     <select class="form-control" wire:model="id_medico">
                         <option>Seleccione un medico para filtrar su horario</option>
                         @foreach ($medicos as $medico)
-                        <option value=" {{ $medico->id }} "> {{ $medico->name }} {{ $medico->lastname }} </option>
+                        <option value="{{ $medico->id }}"> {{ $medico->name }} {{ $medico->lastname }} </option>
                         @endforeach
                     </select>
                     @error('id_medico')

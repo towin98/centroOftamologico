@@ -130,7 +130,7 @@
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="termsAndConditions"
-                                            name="termsAndConditions">
+                                            name="termsAndConditions" checked>
                                         <label class="custom-control-label" for="termsAndConditions">Acepto los <a
                                                 href="#" target="_blank" class="text-primary">Términos y condiciones del
                                                 servicio</a></label>

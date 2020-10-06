@@ -27,7 +27,7 @@ class CreateCitasTable extends Migration
             $table->dateTime('end');
             
             $table->unsignedBigInteger('user_id');
-           
+            $table->string('orden',255);           
 
             $table->timestamps();
 

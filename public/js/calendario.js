@@ -21,6 +21,16 @@ let dateStart;
 let dateEnd;
 let dateClick;
 
+d.getElementById('verDocumento').addEventListener('click', (e) => {
+    $('#staticBackdrop').modal();
+});
+d.getElementById('hiddenModal').addEventListener('click', (e) => {
+    $('#staticBackdrop').removeClass('fade').modal('hide');
+})
+
+
+
+
 class Calendario {
     constructor() {
         $medico_id.addEventListener("change", this.medicoHoras);
@@ -64,7 +74,8 @@ class Calendario {
         return form_data;
     }
 
-    Enviar_informacion(accion, objEvento) {
+    async Enviar_informacion(accion, objEvento) {
+
         const myHeader = new Headers({
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         });
@@ -73,18 +84,9 @@ class Calendario {
             headers: myHeader,
             body: objEvento
         }
-        fetch('cita' + accion, url)
-            .then(response => {
-                if (!response.ok) throw Error(response.status);
-                return response;
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data) {
-                    console.log(data)
-                }
-            })
-            .catch(error => console.log(error));
+        let res = await fetch('cita' + accion, url);
+        let data = await res.json();
+        return data;
     }
 
     clearForm() {
@@ -228,10 +230,10 @@ d.addEventListener('DOMContentLoaded', () => {
             weekends: false,
             selectable: true,
 
-            events: "cita/show",  
+            events: "cita/show",
 
             validRange: {
-                start: dateStart, 
+                start: dateStart,
                 end: dateEnd
             },
 
@@ -274,23 +276,26 @@ d.addEventListener('DOMContentLoaded', () => {
 
             eventClick: function (info) {
                 calendario.clearForm();
+                const event = info.event.extendedProps
                 $('#id').val(info.event.id);
+                $("#verOrden").attr("src", "storage/ordenes/" + event.orden);
+                $("#ordenUpdate").val(event.orden); //solo para fines de actualizar
 
                 /* Para mostrar medico*/
-                const medicoEvent_id = info.event.extendedProps.id_medico
+                const medicoEvent_id = event.id_medico
                 calendario.selectEventMostrar(medicoEvent_id, $medico_id);
 
                 /* mostrar motivo cita*/
-                const motivoCita_id = info.event.extendedProps.id_title
+                const motivoCita_id = event.id_title
                 calendario.selectEventMostrar(motivoCita_id, $motivo_cita);
 
                 /* mostrar EPS*/
-                const remiteEPS = info.event.extendedProps.remiteEPS
+                const remiteEPS = event.remiteEPS
                 calendario.selectEventMostrar(remiteEPS, $remiteEPS);
 
 
-                $('#title').val(info.event.extendedProps.id_title);
-                $('#descripcion').val(info.event.extendedProps.descripcion);
+                $('#title').val(event.id_title);
+                $('#descripcion').val(event.descripcion);
                 // $('#color').val(info.event.backgroundColor);
 
                 /*Aqui obtenemos la fecha para consultarla en la base de datos por dia*/
@@ -349,14 +354,18 @@ d.addEventListener('DOMContentLoaded', () => {
 
             if (buttonClick == 'btn-Agregar') {
                 const form_data = calendario.recolectarDatos('POST');
-                let result = await Swal.fire(
-                    'Cita agendada!',
-                    'No olvide asistir!',
-                    'success'
-                );
-                if (result.isConfirmed === true) {
-                    calendario.Enviar_informacion('', form_data);
-                    location.reload();
+                var respuesta = await calendario.Enviar_informacion('', form_data);
+                if (respuesta != 'error') {
+                    let result = await Swal.fire(
+                        'Cita agendada!',
+                        'No olvide asistir!',
+                        'success'
+                    );
+                    if (result.isConfirmed === true) {
+                        location.reload();
+                    }
+                } else {
+                    alert('Verifique datos ingresados');
                 }
             }
 
@@ -376,7 +385,7 @@ d.addEventListener('DOMContentLoaded', () => {
                     location.reload();
                 }
             }
-            
+
             if (buttonClick == 'btn-Borrar') {
 
                 let resOpcion = await Swal.fire({

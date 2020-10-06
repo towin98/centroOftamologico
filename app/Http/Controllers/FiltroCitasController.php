@@ -42,6 +42,7 @@ class FiltroCitasController extends Controller
                 'users.name as nombrePaciente',
                 'users.lastname as apellidoPaciente',
                 'users.photo as photoPaciente',
+                'citas.orden',
             )
             ->get();
         return $eventos;

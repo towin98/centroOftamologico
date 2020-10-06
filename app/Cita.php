@@ -16,7 +16,7 @@ class Cita extends Model
         'start',
         'end',
         'user_id',
-
+        'orden',
     ];
     protected $table = 'citas';
 }

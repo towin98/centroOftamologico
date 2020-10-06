@@ -26,7 +26,7 @@
     <select name="Noconsultorio" wire:model="consultorio" class="form-control">
         <option>Seleccione</option>
         @foreach ($consultorios as $consultorio)
-        <option value=" {{ $consultorio->id }} ">{{ $consultorio->nombre }}</option>
+        <option value="{{$consultorio->id}}">{{$consultorio->nombre}}</option>
         @endforeach
     </select>
     @error('consultorio')
