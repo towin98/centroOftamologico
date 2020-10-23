@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Eps;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -19,6 +20,7 @@ class EditDatosComponent extends Component
         $tipo_sangre, $tipo_eps, $phone, $email, $direccion;
 
     public $idUser;
+    public $eps;
     
     public $fotocambia;
 
@@ -40,7 +42,8 @@ class EditDatosComponent extends Component
         if (empty($user->tipo_eps) or empty($user->direccion) or empty($user->tipo_sangre)) {
             session()->flash('camposVacios', 'Por favor completa el formulario con tus datos 😉' );
         }
-        return view('livewire.edit-datos-component', );
+        $this->eps = Eps::all();
+        return view('livewire.edit-datos-component');
     }
 
     public function store()

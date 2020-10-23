@@ -1,6 +1,5 @@
 @section('openSidebar')
 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-
 @endsection
 
 @section('sidebar')
@@ -50,7 +49,7 @@
           <a href="{{ route('cita.index') }}" class="nav-link @if ($menu == 'cita') {{ 'active' }}  @endif">
             <i class="nav-icon fas fa-chalkboard-teacher"></i>
             <p>
-              Citas medicas
+              Cita medica
               <span class="badge badge-info right">2</span>
             </p>
           </a>
@@ -154,7 +153,7 @@
 
         <li class="nav-header">MENU</li>
         <li class="nav-item">
-          <a href="#" class="nav-link  @if ($menu == 'ubicacion') {{ 'active' }}  @endif">
+        <a href="{{ route('ubicacion-geografica') }}" class="nav-link  @if ($menu == 'ubicacion') {{ 'active' }}  @endif">
             <i class="nav-icon fas fa-users"></i>
             <p>
               Ubicacion Clinica.

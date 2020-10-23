@@ -26,13 +26,14 @@
                                 <div class="form-group position-relative">
                                     <label for="email">Número de documento / E-mail<span class="text-danger">*</span></label>
                                     <i class="fas fa-user ml-3 icons"></i>
-                                    <input type="text" class="form-control pl-5 @error('email') is-invalid @enderror" name="email"
-                                        id="email" required="" autocomplete="email">
-                                        @error('email')
+                                    <input type="text" class="form-control pl-5 @error('email') is-invalid @enderror @error('documentNumber') is-invalid @enderror""  name="email"
+                                        id="email" required="" value="{{old('documentNumber') ?: old('email') }}"  autocomplete="email">
+
+                                        @if ($errors->has('documentNumber') || $errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            <strong>{{ $errors->first('documentNumber') ?: $errors->first('email') }}</strong>
                                         </span>
-                                        @enderror
+                                        @endif
                                 </div>
                             </div>
 

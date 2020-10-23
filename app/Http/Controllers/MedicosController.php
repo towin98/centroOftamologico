@@ -73,13 +73,6 @@ class MedicosController extends Controller
         ->get();
         return response()->json($resul);
 
-
-        /*  //buscamos las horas disponibles por medico 
-        $resul= Cita::selectRaw('TIME(start) AS start')
-        ->where('medico_id', $idmedico)
-        ->whereDay('start',$day)
-        ->get();
-        return response()->json($resul); */
     }
 
     /**

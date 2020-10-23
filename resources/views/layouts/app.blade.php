@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('img/ico.ico') }}">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -79,7 +80,10 @@
                             @else
 
                             {{-- @include('paciente.menu-paciente') --}}
-
+    
+                            <li class="nav-item">
+                                <p class="nav-link"><strong>Rol: </strong>{{ implode (', ',Auth::user()->getRoleNames()->toArray()) }}</p>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle text-primary" href="#"
                                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -122,6 +126,8 @@
             @yield('motivo-cita')
             @yield('consultorios')
             @yield('citas-agendadas')
+            @yield('ubicaciongeografica')
+            
         </main>
     </div>
 

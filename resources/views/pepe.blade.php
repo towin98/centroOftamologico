@@ -15,6 +15,8 @@
                     @endif
 
                     You are logged in!
+
+                    hola estoy aqui probando
                 </div>
             </div>
         </div>

@@ -35,6 +35,7 @@ class FiltroCitasController extends Controller
                 'citas.color',
                 'citas.remiteEPS',
                 'citas.fecha_cita',
+                'citas.consultorio',
                 'citas.start',
                 'citas.end',
                 'citas.user_id',

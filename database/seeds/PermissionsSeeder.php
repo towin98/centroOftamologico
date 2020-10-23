@@ -63,43 +63,10 @@ class PermissionsSeeder extends Seeder
 
             'direccion' => 'Cra 10 #21 - 51',
             'tipo_sangre' => 'B+',
-            'tipo_eps' => 'Comparta',
+            'tipo_eps' => 1,
             'photo' => 'fotos/personPerfil.png',
         ]);
         //asignando rol
-        $userSuperAdmin->assignRole('Administrador');
-
-        /* $userViewBooks = User::create([
-            'tipo' => 'cc',
-            'documentNumber' => '55',
-            'name' => 'test',
-            'lastname' => 'test lastaname',
-            'phone' => '32074',
-            'email' => 'test@gmail.com',
-            'password' => Hash::make('admin'),
-
-            'direccion' => 'Cra 30 #51A - 51',
-            'tipo_sangre' => 'B+',
-            'tipo_eps' => 'Sumapas',
-            'photo' => 'HHC56aSCWw0rHOZSRqAMZXLQA26LI8XEagyhLreT.jpeg'
-        ]);
-        //asignando rol
-        $userViewBooks->assignRole('ver libros');
-
-        User::create([
-            'tipo' => 'cc',
-            'documentNumber' => '550',
-            'name' => 'Maria Beatriz',
-            'lastname' => 'villanueva',
-            'phone' => '320',
-            'email' => 'test2@gmail.com',
-            'password' => Hash::make('admin'),
-
-            'direccion' => 'calle 40 #21 - 51',
-            'tipo_sangre' => 'B+',
-            'tipo_eps' => 'Sanitas',
-            'photo' => 'HHC56aSCWw0rHOZSRqAMZXLQA26LI8XEagyhLreT.jpeg'
-        ]); */
-        
+        $userSuperAdmin->assignRole('Administrador');        
     }
 }

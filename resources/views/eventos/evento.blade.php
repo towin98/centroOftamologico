@@ -67,16 +67,12 @@
                         </div>
                         <!----end agg--->
 
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <label for="start">Dia de la cita:</label>
-                            </div>
+                        <div class="col-sm-6 col-md-6">  
+                            <label for="start">Dia de la cita:</label>
                         </div>
                         <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <p id="start_mostrar"></p>
-                                <input type="hidden" class="form-control" name="start" id="start" readonly>
-                            </div>
+                            <p id="start_mostrar"></p>
+                            <input type="hidden" class="form-control" name="start" id="start" readonly>
                         </div>
 
                         <div class="col-sm-6 col-md-6">
@@ -85,20 +81,33 @@
                                 <select class="form-control" name="hora" id="hora" required>
                                 </select>
                             </div>
+                            <div>
+                                <label for="">Consultorio asistir</label>
+                                <input type="text" class="form-control" name="consultorio" id="consultorio"  readonly placeholder="Consultorio al cual debe ir">
+                            </div>
                         </div>
 
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label for="remiteEPS">Remite EPS</label>
                                 <select class="form-control" name="remiteEPS" id="remiteEPS" required>
-                                    <option value="">EPS</option>
-                                    <option value="Sanitas">Sanitas</option>
-                                    <option value="Comfamiliar">Comfamiliar</option>
-                                    <option value="Nueva EPS">Nueva Eps</option>
-                                    <option value="Comparta">Comparta</option>
+                                    <option value="">Seleccione EPS</option>
                                 </select>
                             </div>
+                            <div class="form-check">
+                                <div class="form-group">
+                                    <input  type="radio" name="eps" id="particular" value="1">
+                                    <label class="form-check-label" for="particular">
+                                        Particular
+                                    </label>                                
+                                    <input type="radio" name="eps" id="prepagada" value="2">
+                                    <label class="form-check-label" for="prepagada">
+                                        Prepagada
+                                    </label>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label for="orden">Orden medica (REQUERIDO) imagen o archivo PDF</label>
@@ -108,21 +117,13 @@
                             </div>
                         </div>
                     </div>
-
-
-                    {{-- <div class="form-group">
-                        <label for="title">Titulo:</label>
-                        <input type="text" class="form-control" name="title" id="title" placeholder="Titulo">
-                    </div> --}}
-
                     <input type="hidden" class="form-control" name="end" id="end">
 
                     <div class="form-group">
-                        <textarea name="descripcion" class="form-control" id="descripcion" cols="30" rows="4"
+                        <textarea name="descripcion" class="form-control" id="descripcion" cols="30" rows="2"
                             placeholder="¿Agregar algun dato mas? opcional*"></textarea>
                     </div>
                 </div>
-
 
                 <div class="modal-footer">
                     <button id="btn-Agregar" type="submit" class="btn btn-primary">Agregar</button>
@@ -138,8 +139,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-xl" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-xl" id="staticBackdrop" data-backdrop="static" data-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -149,8 +150,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <iframe id="verOrden" src="" width="100%"
-                    height="680px"></iframe>
+                <iframe id="verOrden" src="" width="100%" height="680px"></iframe>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="hiddenModal">Cerrar</button>

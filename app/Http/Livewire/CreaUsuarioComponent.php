@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Eps;
 use App\Medico;
 use App\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
@@ -16,8 +17,19 @@ class CreaUsuarioComponent extends Component
 
     public function render()
     {
+        $tipoSangre = array(
+            "A+",
+            "B+",
+            "O+",
+            "AB+",
+            "A-",
+            "B-",
+            "O-",
+            "AB-"
+        );
+        $eps = Eps::all();
         $roles = Role::all();
-        return view('livewire.crea-usuario-component', compact('roles'));
+        return view('livewire.crea-usuario-component', compact('roles','eps','tipoSangre'));
     }
 
     public function store()
@@ -30,8 +42,8 @@ class CreaUsuarioComponent extends Component
             'tipo' => 'required',
             'tipo_sangre' => 'required',
             'tipo_eps' => 'required',
-            'email' => 'required|email',
             'direccion' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
             'rol' => 'required',
 
@@ -45,6 +57,7 @@ class CreaUsuarioComponent extends Component
             'phone' => $this->phone,
             'email' => $this->email,
             'password' => Hash::make($this->password),
+            
             'direccion' => $this->direccion,
             'tipo_sangre' => $this->tipo_sangre,
             'tipo_eps' => $this->tipo_eps,

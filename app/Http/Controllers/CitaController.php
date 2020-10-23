@@ -69,6 +69,7 @@ class CitaController extends Controller
             'medico' => 'required',
             'remiteEPS' => 'required',
             'start' => 'required',
+            'consultorio' => 'required',
         ]);
         if ($validatedData->fails()) {
             return response()->json('error'/* $validatedData->errors(), 422 */);
@@ -81,6 +82,7 @@ class CitaController extends Controller
             'remiteEPS' => $request->remiteEPS,
             'fecha_cita' => $request->fecha_cita,
             'start' => $request->start,
+            'consultorio' => $request->consultorio,
             'end' => $request->end,
             'user_id' => Auth::user()->id,
             'id_medico' => $request->medico,
@@ -109,6 +111,7 @@ class CitaController extends Controller
                 'citas.color',
                 'citas.remiteEPS',
                 'citas.fecha_cita',
+                'citas.consultorio',
                 'citas.start',
                 'citas.end',
                 'citas.user_id',
@@ -161,6 +164,7 @@ class CitaController extends Controller
             'color' => $request->color,
             'remiteEPS' => $request->remiteEPS,
             'fecha_cita' => $request->fecha_cita,
+            'consultorio' => $request->consultorio,
             'start' => $request->start,
             'end' => $request->end,
             'user_id' => Auth::user()->id,

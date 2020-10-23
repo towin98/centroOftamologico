@@ -30,31 +30,14 @@ class HorarioMedicosComponent extends Component
             ->join('consultorios', 'turnos.id_consultorio', '=', 'consultorios.id')
             ->where('id_medico', $this->id_medico)
             ->orderBy('dia_turno', 'desc')
-            ->select('turnos.id', 'turnos.nombre', 'turnos.dia_turno','turnos.hora_fin', 'turnos.hora_inicio', 'consultorios.nombre as  id_consultorio'  )
+            ->select('turnos.id', 'turnos.nombre', 'turnos.dia_turno', 'turnos.hora_fin', 'turnos.hora_inicio', 'consultorios.nombre as  id_consultorio')
             ->paginate(5);
 
         return view('livewire.horario-medicos-component', compact('medicos', 'turnos', 'consultorios'));
     }
 
-    public function storeHorario()
+    public function guardar()
     {
-        $validacionTurno = Turno::where([
-            'dia_turno' => $this->fechaHorario,
-            'id_consultorio' => $this->consultorio
-        ])->get();
-
-        if (count($validacionTurno) !== 0) {
-            return session()->flash('Existe', 'Este consultorio ya esta asignado a un medico este mismo día');
-        }
-
-        $validacionTurno = Turno::where([
-            'id_medico' => $this->id_medico,
-            'dia_turno' => $this->fechaHorario
-        ])->get();
-
-        if (count($validacionTurno) !== 0) {
-            return session()->flash('Existe', 'No puede ingresar mas de dos turnos a un medico en un día.');
-        }
         $this->validate([
             'id_medico' => 'required',
             'fechaHorario' => 'required',
@@ -84,6 +67,47 @@ class HorarioMedicosComponent extends Component
         $this->limpiarCampos();
         session()->flash('message', 'Horario creado ' . $nombreDia . ": " . $this->fechaHorario);
     }
+
+    public function storeHorario()
+    {
+        $validacionTurno = Turno::where([
+            'dia_turno' => $this->fechaHorario
+        ])->get();
+
+        if (count($validacionTurno) == 0) {
+            return $this->guardar();
+        } else {
+            foreach ($validacionTurno as $turno) {
+                if ($turno->id_consultorio == $this->consultorio) {
+                    if (
+                        $turno->hora_inicio <= $this->hora_inicio . ":00" &&
+                        $turno->hora_fin >= $this->hora_inicio . ":00"
+                    ) {
+                        $medico = DB::table('medicos')
+                        ->join('users', 'users.id', '=', 'medicos.id_user')
+                        ->where('medicos.id', $turno->id_medico)
+                        ->select('users.name', 'users.lastname')
+                        ->first();
+
+                        return session()->flash('Existe', 'Este horario ya esta asigando en este consultorio con el medico: '.$medico->name ." ".$medico->lastname );
+                    }
+                    if (
+                        $turno->hora_inicio <= $this->hora_fin . ":00" &&
+                        $turno->hora_fin >= $this->hora_fin . ":00"
+                    ) {
+                        $medico = DB::table('medicos')
+                        ->join('users', 'users.id', '=', 'medicos.id_user')
+                        ->where('medicos.id', $turno->id_medico)
+                        ->select('users.name', 'users.lastname')
+                        ->first();
+                        return session()->flash('Existe', 'Este horario ya esta asigando en este consultorio con el medico: '.$medico->name ." ".$medico->lastname );
+                    }
+                }
+            }
+            return $this->guardar();
+        }
+    }
+
 
     public function editar_horario($id_Turno)
     {
@@ -132,7 +156,7 @@ class HorarioMedicosComponent extends Component
         session()->flash('message', 'Horario Actualizado');
     }
 
-    public function default() 
+    public function default()
     {
         $this->limpiarCampos();
         $this->view = "guardar-turno";

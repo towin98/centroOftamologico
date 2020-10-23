@@ -3,16 +3,6 @@
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 
 
@@ -69,8 +59,16 @@ Route::group(['middleware' => ['permission:Agendar Cita']], function () {
     Route::get('/medico/{idmedico}/{day}', 'MedicosController@show')->name('medico.show'); //indispensable para citas
     Route::resource('/cita', 'CitaController');
 
+    //buscamos consultario en base a la hora 
+    Route::get('cita/buscar/consultorio/{id_medico}/{hora_inicio}/{dia_turno}', 'ConsultariosController@buscarConsultorioPorHora')->name('cita/buscar/consultorio');
+
     //hora
     Route::get('horas/{fechaDia}/{idMedico}', 'HoraController@show')->name('horas.show'); //indispensable para citas
+
+
+    //eps
+    Route::get('eps/{idtipo}', 'EpsController@mostrarEps')->name('eps.mostrarEps');
+    Route::get('eps/update/{idEps}', 'EpsController@mostrarEpsUpdate')->name('eps.mostrarEps.Update');
 });
 
 
@@ -98,4 +96,11 @@ Route::group(['middleware' => ['permission:Ver citas y filtrar']], function () {
     //filtro citas agendadas
     Route::get('citas-agendadas', 'FiltroCitasController@index')->name('citas-agendadas');
     Route::get('citas-filtro/mostrar', 'FiltroCitasController@show')->name('citas-filtro/mostrar');
+    //eps
+    Route::get('citas-filtro/mostrar/eps/{id}', 'EpsController@mostrarEpsOne')->name('citas-filtro/mostrar/eps');
 });
+
+Route::get('ubicacion-geografica', function () {
+    $menu = 'ubicacion';
+    return view('ubicaciongeografica.ubicacion',compact('menu'));
+})->name('ubicacion-geografica');

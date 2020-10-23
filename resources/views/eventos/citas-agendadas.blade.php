@@ -24,8 +24,8 @@
 
 
 <!-- Modal -->
-<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-light">
                 <h5 class="modal-title" id="exampleModalLabel">Detalles de la cita</h5>
@@ -36,36 +36,42 @@
             <div class="modal-body">
 
               <div class="row">
-                    <table class="pull-left col-md-8 ">
+                    <table class="pull-left col-md-8 table">
                         <tbody>
                             <tr>
                                 <td class="h6"><strong>Nombre del Paciente:</strong></td>
                                 <td> </td>
-                                <td class="h5" id="namePaciente"></td>
+                                <td class="h6" id="namePaciente"></td>
                             </tr>
                             
                             <tr>
                                 <td class="h6"><strong>Motivo de atencion:</strong></td>
                                 <td> </td>
-                                <td class="h5" id="title"></td>
+                                <td class="h6" id="title"></td>
                             </tr>
                   
                             <tr>
                                 <td class="h6"><strong>Fecha cita:</strong></td>
                                 <td> </td>
-                                <td class="h5" id="fechaCita"></td>
+                                <td class="h6" id="fechaCita"></td>
                             </tr>
                   
                             <tr>
                                 <td class="h6"><strong>Hora de la cita:</strong></td>
                                 <td> </td>
-                                <td class="h5" id="horaCita"></td>
+                                <td class="h6" id="horaCita"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="h6"><strong>Consultorio:</strong></td>
+                                <td> </td>
+                                <td class="h6" id="consultorio"></td>
                             </tr>
                   
                             <tr>
                                 <td class="h6"><strong>EPS:</strong></td>
                                 <td> </td>
-                                <td class="h5" id="eps"></td>
+                                <td class="h6" id="eps"></td>
                             </tr>   
 
                             <tr>

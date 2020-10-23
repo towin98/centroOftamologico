@@ -13,6 +13,7 @@ class Cita extends Model
         'color',
         'remiteEPS',
         'fecha_cita',
+        'consultorio',
         'start',
         'end',
         'user_id',

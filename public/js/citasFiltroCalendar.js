@@ -39,7 +39,7 @@ let calendar = new FullCalendar.Calendar(calendarEl, {
     
     events: 'citas-filtro/mostrar', 
 
-    eventClick: function (info) {
+    eventClick: async function (info) {
       const event =info.event.extendedProps
       $('#namePaciente').text(event.nombrePaciente+ " "+ event.apellidoPaciente);
      
@@ -47,9 +47,13 @@ let calendar = new FullCalendar.Calendar(calendarEl, {
       $("#photoPaciente").attr("src","storage/"+event.photoPaciente);
       $('#descripcion').text(event.descripcion);
       $('#fechaCita').text(event.fecha_cita);
-      $('#eps').text(event.remiteEPS);
+      $('#consultorio').text(event.consultorio);
 
-      console.log(event.orden)
+      const res = await fetch('citas-filtro/mostrar/eps/'+event.remiteEPS);
+      const dataEps = await res.json();
+      
+      $('#eps').text(dataEps.nombre);
+
       $("#verOrden").attr("src","storage/ordenes/"+event.orden);        
      // $('#color').val(info.event.backgroundColor);
 

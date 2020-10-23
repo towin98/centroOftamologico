@@ -102,10 +102,26 @@
                         </label>
                         <i class="fas fa-users-cog ml-3 icons"></i>
                         <select id="tipo_eps" class="form-control pl-5" wire:model="tipo_eps">
+                            <option>Seleccione</option>
+                            <optgroup label="Eps Particular">
+                                @foreach ($eps as $epsValue)
+                                @if ($epsValue->id_tipo_eps == 1)
+                                <option value="{{ $epsValue->id }}"
+                                    {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }}> {{ $epsValue->nombre }}
+                                </option>
+                                @endif
+                                @endforeach
+                            </optgroup>
 
-                            <option></option>
-                            <option value="Comparta">Comparta</option>
-                            <option value="Sanitas">Sanitas</option>
+                            <optgroup label="Eps Prepagada">
+                                @foreach ($eps as $epsValue)
+                                @if ($epsValue->id_tipo_eps == 2)
+                                <option value="{{ $epsValue->id }}"
+                                    {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }}> {{ $epsValue->nombre }}
+                                </option>
+                                @endif
+                                @endforeach
+                            </optgroup>
                         </select>
                         @error('tipo_eps')
                         <span>{{ $message }} </span>

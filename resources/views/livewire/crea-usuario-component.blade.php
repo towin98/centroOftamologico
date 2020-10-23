@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-    <h3 class="text-center pt-2">Ingresa los siguinetes datos</h3>
+    <h3 class="text-center pt-2">Ingresa los siguientes datos</h3>
     <div class="container pb-5 pl-5 pr-5">
         <hr>
         <div class="row">
@@ -103,10 +103,22 @@
                     </label>
                     <i class="fas fa-users-cog ml-3 icons"></i>
                     <select id="tipo_eps" class="form-control pl-5" wire:model="tipo_eps">
-
                         <option></option>
-                        <option value="Comparta">Comparta</option>
-                        <option value="Sanitas">Sanitas</option>
+                        <optgroup label="Eps Particular">
+                            @foreach ($eps as $epsValue)
+                            @if ($epsValue->id_tipo_eps == 1)
+                            <option value="{{ $epsValue->id }}" {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }} > {{ $epsValue->nombre }} </option>
+                            @endif
+                            @endforeach
+                        </optgroup>
+
+                        <optgroup label="Eps Prepagada">
+                            @foreach ($eps as $epsValue)
+                            @if ($epsValue->id_tipo_eps == 2)
+                            <option value="{{ $epsValue->id }}" {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }}> {{ $epsValue->nombre }} </option>
+                            @endif
+                            @endforeach
+                        </optgroup>
                     </select>
                     @error('tipo_eps')
                     <span class="badge badge-danger">{{ $message }} </span>
@@ -122,14 +134,9 @@
                     <i class="fas fa-users-cog ml-3 icons"></i>
                     <select id="tipo_sangre" class="form-control pl-5" wire:model="tipo_sangre">
                         <option></option>
-                        <option value="A+">A+</option>
-                        <option value="B+">B+</option>
-                        <option value="O+">O+</option>
-                        <option value="AB+">AB+</option>
-                        <option value="A-">A-</option>
-                        <option value="B-">B-</option>
-                        <option value="O-">O-</option>
-                        <option value="AB-">AB-</option>
+                        @foreach ($tipoSangre as $tipo)
+                            <option value="{{ $tipo }}" {{ (old("tipo_sangre") == $tipo ? "selected":"")}}> {{ $tipo }}</option>
+                        @endforeach
                     </select>
 
                     @error('tipo_sangre')

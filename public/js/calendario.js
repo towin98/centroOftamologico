@@ -2,9 +2,11 @@ const d = document;
 const calendarEl = d.getElementById('calendar');
 const form_evento = d.getElementById('form_evento');
 const $medico_id = d.getElementById("medico_id");
-let $horaSelectt = d.getElementById("hora");
-let $motivo_cita = d.getElementById("motivo_cita");
-let $remiteEPS = d.getElementById("remiteEPS");
+const $horaSelectInicia = d.getElementById("hora");
+const $motivo_cita = d.getElementById("motivo_cita");
+const $remiteEPS = d.getElementById("remiteEPS");
+const $start_mostrar = d.getElementById('start_mostrar');
+const $consultorio = d.getElementById("consultorio");
 
 let $btnAgregar = d.getElementById("btn-Agregar");
 let $btnModificar = d.getElementById("btn-Modificar");
@@ -29,22 +31,25 @@ d.getElementById('hiddenModal').addEventListener('click', (e) => {
 })
 
 
-
-
 class Calendario {
     constructor() {
+        const self = this;
         $medico_id.addEventListener("change", this.medicoHoras);
+        $horaSelectInicia.addEventListener("change", (params) => {
+            self.mostrarConsultorio(
+                $medico_id.value,
+                $horaSelectInicia.value,
+                $start_mostrar.textContent);
+        });
     }
+
     selectEventMostrar(valor, $selectNombre) {
         $selectNombre.value = valor;
         $selectNombre.options[$selectNombre.selectedIndex].defaultSelected = true;
     }
 
-    recolectarDatos(method) {
 
-        const form_data = new FormData(form_evento);
-        form_data.append("method", method);
-        let start = form_data.get('start') + " " + form_data.get('hora');
+    incrementarHora(start) {
         let fecha = new Date(start);
         let end_hora = fecha.getHours();
         let end_minutos = fecha.getMinutes() + 9
@@ -55,15 +60,25 @@ class Calendario {
         if (end_minutos < 10) {
 
             end_total = end_hora + ":0" + end_minutos + ":" + end_segundos;
-
+            return end_total
         } else if (end_hora < 10) {
 
             end_total = "0" + end_hora + ":" + end_minutos + ":" + end_segundos;
+            return end_total
         } else {
 
             end_total = end_hora + ":" + end_minutos + ":" + end_segundos;
+            return end_total
         }
-        console.log(end_total) //end hora
+
+    }
+
+    recolectarDatos(method) {
+
+        const form_data = new FormData(form_evento);
+        form_data.append("method", method);
+        let start = form_data.get('start') + " " + form_data.get('hora');
+        const end_total = calendario.incrementarHora(start);
 
         let end = form_data.get('start') + " " + end_total;
 
@@ -89,6 +104,13 @@ class Calendario {
         return data;
     }
 
+    async mostrarConsultorio(id_medico, hora_inicio, fechaDia) {
+        const res = await fetch('cita/buscar/consultorio/'+id_medico+'/'+hora_inicio+'/'+fechaDia);
+        const dataConsultorio = await res.json();
+        $consultorio.value = dataConsultorio.nombre;
+        console.log(dataConsultorio)
+    }
+
     clearForm() {
         $('#id').val('');
         $('#title').val('');
@@ -111,11 +133,11 @@ class Calendario {
 
             opt.value = hora_event;// le damos un valor
             opt.textContent = hora_event;// le ponemos un texto
-            $horaSelectt.add(opt);// lo agregamos al select
+            $horaSelectInicia.add(opt);// lo agregamos al select
 
-            $horaSelectt.value = hora_event;
-            $horaSelectt.options[$horaSelectt.selectedIndex].defaultSelected = true;
-            $horaSelectt.options[$horaSelectt.selectedIndex].style.background = 'red';
+            $horaSelectInicia.value = hora_event;
+            $horaSelectInicia.options[$horaSelectInicia.selectedIndex].defaultSelected = true;
+            $horaSelectInicia.options[$horaSelectInicia.selectedIndex].style.background = 'red';
             var fechaDia = fecha_recu
             console.log(fechaDia)
 
@@ -132,7 +154,7 @@ class Calendario {
             let opt = d.createElement("option");// creamos un elemento de tipo option              
             opt.value = '';// le damos un valor
             opt.textContent = 'Seleccione';// le ponemos un texto
-            $horaSelectt.add(opt);// lo agregamos al select
+            $horaSelectInicia.add(opt);// lo agregamos al select
         }
 
         if (idmedico && fechaDia) {
@@ -145,7 +167,7 @@ class Calendario {
                 .then(data => {
 
                     if (data) {
-                        console.log(data)
+                        //console.log(data)
 
                         let quitar_final = data
 
@@ -153,7 +175,7 @@ class Calendario {
                             .then(res => res.json())
                             .then(data => {
                                 if (data !== false) {
-                                    console.log(data)
+                                    //console.log(data)
 
                                     let array_new = [];
                                     for (let i in data) {
@@ -175,9 +197,9 @@ class Calendario {
                                         let opt = d.createElement("option");// creamos un elemento de tipo option
                                         opt.value = array_new[i];// le damos un valor
                                         opt.textContent = array_new[i];// le ponemos un texto
-                                        $horaSelectt.add(opt);// lo agregamos al select
+                                        $horaSelectInicia.add(opt);// lo agregamos al select
                                     }
-                                    console.log(array_new)
+                                    //console.log(array_new)
                                 }
                             });
                     }
@@ -197,7 +219,61 @@ class Calendario {
         return year + "-" + month + "-" + day;
     }
 
+    async mostrarEps() {
 
+        const res = await fetch('eps/' + 1); //1 = particular
+        const dataEpsParticular = await res.json();
+
+        const response = await fetch('eps/' + 2); //2 = Prepagada
+        const dataEpsPrepagada = await response.json();
+        const self = this;
+
+        d.getElementById('particular').addEventListener('change', function () {
+            if (this.checked) {
+                self.selectEpsRellenar(dataEpsParticular)
+            }
+        });
+
+        d.getElementById('prepagada').addEventListener('change', function () {
+            if (this.checked) {
+                self.selectEpsRellenar(dataEpsPrepagada)
+            }
+        });
+    }
+
+    selectEpsRellenar(dataEps) {
+        $('#remiteEPS').empty();
+
+        for (let i = 0; i < dataEps.length; i++) {
+            let opcion = document.createElement("option");
+            opcion.text = dataEps[i].nombre;
+            opcion.value = dataEps[i].id;
+            $remiteEPS.add(opcion);
+        }
+    }
+
+    async mostrarEpsUpdate(remiteEPS) {
+        const res = await fetch('eps/update/' + remiteEPS);
+        const data = await res.json();
+        const self = this;
+
+        if (data[0].id_tipo_eps === 1) {
+            this.mostrarEps();
+            d.getElementById('particular').checked = true;
+
+            const res = await fetch('eps/' + 1); //1 = particular
+            const dataEpsParticular = await res.json();
+            self.selectEpsRellenar(dataEpsParticular)
+
+        } else {
+            this.mostrarEps();
+            d.getElementById('prepagada').checked = true;
+            $remiteEPS.checked = true;
+            const response = await fetch('eps/' + 2); //2 = Prepagada
+            const dataEpsPrepagada = await response.json();
+            self.selectEpsRellenar(dataEpsPrepagada)
+        }
+    }
 }
 
 const calendario = new Calendario();
@@ -245,13 +321,15 @@ d.addEventListener('DOMContentLoaded', () => {
 
             dateClick: function (info) {
                 if (dateClick === 1) {
+                    $('#verDocumento').hide();
                     calendario.clearForm();
+                    calendario.mostrarEps();
+
                     console.log('sin evento normal')
                     $('#start').val(info.dateStr);
                     $('#start_mostrar').text(info.dateStr);  //creamos <p> para mostrar fecha 
 
                     fecha_calendario = info.dateStr
-
 
                     dayselect = info.dayEl.outerText;
                     fecha_recu = '';
@@ -264,7 +342,7 @@ d.addEventListener('DOMContentLoaded', () => {
 
                     opt.value = '';// le damos un valor
                     opt.textContent = 'Seleccione medico';// le ponemos un texto
-                    $horaSelectt.add(opt);// lo agregamos al select
+                    $horaSelectInicia.add(opt);// lo agregamos al select
 
                     if ($btnModificar.parentNode) parent.removeChild($btnModificar);
                     if ($btnBorrar.parentNode) parent.removeChild($btnBorrar);
@@ -274,7 +352,7 @@ d.addEventListener('DOMContentLoaded', () => {
                 } else alert('solo puedes tener una cita activa - Borrala si quieres cambiarla');
             },
 
-            eventClick: function (info) {
+            eventClick: async function (info) {
                 calendario.clearForm();
                 const event = info.event.extendedProps
                 $('#id').val(info.event.id);
@@ -291,11 +369,13 @@ d.addEventListener('DOMContentLoaded', () => {
 
                 /* mostrar EPS*/
                 const remiteEPS = event.remiteEPS
-                calendario.selectEventMostrar(remiteEPS, $remiteEPS);
+                await calendario.mostrarEpsUpdate(remiteEPS);
 
+                calendario.selectEventMostrar(remiteEPS, $remiteEPS);
 
                 $('#title').val(event.id_title);
                 $('#descripcion').val(event.descripcion);
+                $('#consultorio').val(event.consultorio);
                 // $('#color').val(info.event.backgroundColor);
 
                 /*Aqui obtenemos la fecha para consultarla en la base de datos por dia*/
@@ -416,8 +496,6 @@ d.addEventListener('DOMContentLoaded', () => {
                 $('#exampleModal').modal('toggle');
             }
         });
-
-
     }
 
 });

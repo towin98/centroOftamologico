@@ -51,20 +51,30 @@ class HoraController extends Controller
     //SELECT * FROM `turnos` WHERE `id_user` = 1 and `dia_turno` = '2020-08-27'
     {
         try {
+
+            $horasMostrar = [];
             $turno = Turno::where(
                 [
                     'id_medico' => $idMedico,
                     'dia_turno' => $fechaDia
                 ]
-            )->get();  //consulto si tiene un turno 
-
-            $turnoInicia  = $turno[0]->hora_inicio;
-            $turnoFin = $turno[0]->hora_fin;
+            )
+                ->orderBy('hora_inicio', 'asc')
+                ->get();  //consulto si tiene un turno 
 
             //SELECT * FROM `horas` WHERE `hora_inicio_cita` BETWEEN '06:00:00' AND '10:00:00'
+            for ($i = 0; $i < count($turno); $i++) {
 
-            $filtroHoras = Hora::whereBetween('hora_inicio_cita', [$turnoInicia, $turnoFin])->get();
-            return response()->json($filtroHoras);
+                $turnoInicia  = $turno[$i]->hora_inicio;
+                $turnoFin = $turno[$i]->hora_fin;
+
+                $filtroHoras = Hora::whereBetween('hora_inicio_cita', [$turnoInicia, $turnoFin])->get();
+                for ($j = 0; $j < count($filtroHoras); $j++) {
+                    array_push($horasMostrar, $filtroHoras[$j]);
+                }
+            }
+
+            return response()->json($horasMostrar);
         } catch (Throwable $th) {
             return response()->json(false);
         }
