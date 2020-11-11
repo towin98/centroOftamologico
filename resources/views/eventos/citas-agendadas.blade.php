@@ -24,7 +24,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-light">
@@ -35,7 +36,7 @@
             </div>
             <div class="modal-body">
 
-              <div class="row">
+                <div class="row">
                     <table class="pull-left col-md-8 table">
                         <tbody>
                             <tr>
@@ -43,19 +44,19 @@
                                 <td> </td>
                                 <td class="h6" id="namePaciente"></td>
                             </tr>
-                            
+
                             <tr>
                                 <td class="h6"><strong>Motivo de atencion:</strong></td>
                                 <td> </td>
                                 <td class="h6" id="title"></td>
                             </tr>
-                  
+
                             <tr>
                                 <td class="h6"><strong>Fecha cita:</strong></td>
                                 <td> </td>
                                 <td class="h6" id="fechaCita"></td>
                             </tr>
-                  
+
                             <tr>
                                 <td class="h6"><strong>Hora de la cita:</strong></td>
                                 <td> </td>
@@ -67,32 +68,41 @@
                                 <td> </td>
                                 <td class="h6" id="consultorio"></td>
                             </tr>
-                  
+
                             <tr>
                                 <td class="h6"><strong>EPS:</strong></td>
                                 <td> </td>
                                 <td class="h6" id="eps"></td>
-                            </tr>   
+                            </tr>
 
                             <tr>
                                 <td class="h6"><strong>Descripción:</strong></td>
                                 <td> </td>
                                 <td id="descripcion"></td>
-                            </tr>      
-                            
+                            </tr>
+
                             <tr>
                                 <td class="h6"><strong>Orden:</strong></td>
                                 <td> </td>
-                                <td id="orden"><button class="btn btn-link pl-0" id="verDocumento">Ver documento</button></td>
-                            </tr>      
+                                <td id="orden"><button class="btn btn-link pl-0" id="verDocumento">Ver
+                                        documento</button></td>
+                            </tr>
                         </tbody>
                     </table>
-                  
+
                     <div class="col-md-4">
-                        <img src="" id="photoPaciente" alt="teste" class="img-thumbnail">
+                        <div class="d-flex justify-content-center">
+                            <img src="" id="photoPaciente" alt="teste" class="img-thumbnail">
+                        </div>
+                        <div id="estadoCita" class="mt-4 alert " role="alert">
+                            
+                        </div>
                     </div>
-                  
-              </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAsistio" class="btn btn-success">Paciente asistió a la cita</button>
+                    <button type="button" id="btnNoAsistio" class="btn btn-danger">Paciente no asistió</button>
+                </div>
             </div>
 
         </div>
@@ -103,8 +113,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-xl" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-xl" id="staticBackdrop" data-backdrop="static" data-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">

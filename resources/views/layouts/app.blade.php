@@ -11,21 +11,21 @@
 
     <title>Centro Oftamologico - Cuenta {{-- {{ config('app.name', 'Laravel') }} --}}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+
+
+    <!-- Styles bootstrapp-->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!----font awesome---->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
-        integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css">
 
-    <!-- Styles bootstrapp-->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     {{--  <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> --}}
@@ -40,8 +40,10 @@
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!---necesario--->
 
+
     @livewireStyles
 </head>
+
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -80,9 +82,10 @@
                             @else
 
                             {{-- @include('paciente.menu-paciente') --}}
-    
+
                             <li class="nav-item">
-                                <p class="nav-link"><strong>Rol: </strong>{{ implode (', ',Auth::user()->getRoleNames()->toArray()) }}</p>
+                                <p class="nav-link"><strong>Rol:
+                                    </strong>{{ implode (', ',Auth::user()->getRoleNames()->toArray()) }}</p>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle text-primary" href="#"
@@ -109,9 +112,9 @@
                 </div>
             </nav>
         </div>
-        <!----sweetalert2-->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-        @livewireScripts
+
+
+
 
         <main>
             @yield('content')
@@ -127,15 +130,27 @@
             @yield('consultorios')
             @yield('citas-agendadas')
             @yield('ubicaciongeografica')
-            
+
         </main>
     </div>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+    <!-----propio de bootstrapp 4.5-->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-----propio de bootstrapp 4.5-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+    <!----sweetalert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+    @livewireScripts
 
     @yield('scripts')
     @yield('scripts_Crear_Rol')
     @yield('scripts_Asginar_Rol')
-
 
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>

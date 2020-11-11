@@ -37,7 +37,6 @@ Route::group(['middleware' => ['permission:Crear Rol']], function () {
     Route::get('/editRol/{id}', 'HomeController@editRol')->name('editRol');
     Route::delete('/eliminar-Rol/{id}', 'HomeController@eliminarRol')->name('eliminar-Rol');
 
-
     Route::post('/cambiarRolUser', 'HomeController@cambiarRolUser')->name('cambiarRolUser');
 });
 
@@ -56,7 +55,10 @@ Route::group(['middleware' => ['permission:Asunto cita']], function () {
 
 Route::group(['middleware' => ['permission:Agendar Cita']], function () {
 
-    Route::get('/medico/{idmedico}/{day}', 'MedicosController@show')->name('medico.show'); //indispensable para citas
+    //busco medico por id del motivo de cita
+    Route::get('cita/mostrarMedicosEvento/{id_motivoCita}', 'MedicosController@mostrarMedicosEvento');
+
+    Route::get('/medico/{idmedico}/{day}', 'MedicosController@show')->name('medico.show'); //indispensable para mostrar
     Route::resource('/cita', 'CitaController');
 
     //buscamos consultario en base a la hora 
@@ -96,6 +98,9 @@ Route::group(['middleware' => ['permission:Ver citas y filtrar']], function () {
     //filtro citas agendadas
     Route::get('citas-agendadas', 'FiltroCitasController@index')->name('citas-agendadas');
     Route::get('citas-filtro/mostrar', 'FiltroCitasController@show')->name('citas-filtro/mostrar');
+    //asistencia  citas
+    Route::delete('citas-filtro/mostrar/asistio/{idCita}', 'FiltroCitasController@asistioCita');
+    Route::delete('citas-filtro/mostrar/noAsistio/{idCita}', 'FiltroCitasController@destroy');
     //eps
     Route::get('citas-filtro/mostrar/eps/{id}', 'EpsController@mostrarEpsOne')->name('citas-filtro/mostrar/eps');
 });

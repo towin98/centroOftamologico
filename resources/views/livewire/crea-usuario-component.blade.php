@@ -107,7 +107,9 @@
                         <optgroup label="Eps Particular">
                             @foreach ($eps as $epsValue)
                             @if ($epsValue->id_tipo_eps == 1)
-                            <option value="{{ $epsValue->id }}" {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }} > {{ $epsValue->nombre }} </option>
+                            <option value="{{ $epsValue->id }}"
+                                {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }}> {{ $epsValue->nombre }}
+                            </option>
                             @endif
                             @endforeach
                         </optgroup>
@@ -115,7 +117,9 @@
                         <optgroup label="Eps Prepagada">
                             @foreach ($eps as $epsValue)
                             @if ($epsValue->id_tipo_eps == 2)
-                            <option value="{{ $epsValue->id }}" {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }}> {{ $epsValue->nombre }} </option>
+                            <option value="{{ $epsValue->id }}"
+                                {{ (old("tipo_eps") == $epsValue->id ? "selected":"") }}> {{ $epsValue->nombre }}
+                            </option>
                             @endif
                             @endforeach
                         </optgroup>
@@ -135,7 +139,8 @@
                     <select id="tipo_sangre" class="form-control pl-5" wire:model="tipo_sangre">
                         <option></option>
                         @foreach ($tipoSangre as $tipo)
-                            <option value="{{ $tipo }}" {{ (old("tipo_sangre") == $tipo ? "selected":"")}}> {{ $tipo }}</option>
+                        <option value="{{ $tipo }}" {{ (old("tipo_sangre") == $tipo ? "selected":"")}}> {{ $tipo }}
+                        </option>
                         @endforeach
                     </select>
 
@@ -170,11 +175,11 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group position-relative">
-                    <label for="tipo_sangre">Asigne rol
+                    <label for="rol">Asigne rol
                         <span class="text-danger">*</span>
                     </label>
                     <i class="fas fa-users-cog ml-3 icons"></i>
-                    <select id="rol" class="form-control pl-5" wire:model="rol">
+                    <select id="rol" class="form-control pl-5" wire:model="rol" required>
                         <option>Seleccione</option>
                         @foreach ($roles as $rol)
                         <option value="{{ $rol->id }}"> {{ $rol->name }} </option>
@@ -188,12 +193,67 @@
                 </div>
             </div>
 
+            @if ($especialidad == true)
+            <div class="col-md-3">
+                <div class="form-group position-relative">
+                    <label for="especialidadMedico">Especialidad
+                        <span class="text-danger">*</span>
+                    </label>
+                    <i class="fas fa-users-cog ml-3 icons"></i>
+                    <select id="especialidadMedico" class="form-control pl-5" wire:model="especialidadMedico" required>
+                        <option></option>
+                        @foreach ($especialidades as $especialidad)
+                        <option value="{{ $especialidad->id }}"> {{ $especialidad->name }} </option>
+                        @endforeach
+                    </select>
 
-            <div class="col-md-12">
-                <button type="button" wire:click="store" class="btn btn-primary w-100"
-                    id="registerBtn">¡REGISTRAR!</button>
+                    @error('especialidadMedico')
+                    <span class="badge badge-danger">{{ $message }} </span>
+                    @enderror
+
+                    
+                </div>
             </div>
-
+            <div class="col-md-6">
+                <div class="form-group position-relative">
+                    <label for="asuntosCita">Asuntos de citas que atendera
+                        <span class="text-danger">*</span>
+                    </label>
+                    <i class="fas fa-users-cog ml-3 icons"></i>
+                    <div wire:ignore>
+                        
+                        <select id="asuntosCita" class="mul-select form-control pl-5" size="12" multiple
+                            wire:model="asuntosCita" required>
+                            @foreach ($MotivoCitas as $MotivoCita)
+                            <option value="{{ $MotivoCita->id }}"> {{ $MotivoCita->nombreasunto }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <h6> {{ 'Seleccionados' }} {{  implode(', ', $asuntosCita) }}</h6>
+                    @error('asuntosCita')
+                    <span class="badge badge-danger">{{ $message }} </span>
+                    @enderror
+                </div>
+            </div>
+            @endif
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                    <button type="button" wire:click="store" class="btn btn-primary"
+                        id="registerBtn">¡REGISTRAR!</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+
+              {{--   <div wire:ignore>
+                    <script>
+                        $(".mul-select").select2({
+                        placeholder: "Seleccione citas que atendera", //placeholder
+                        tags: true,
+                        tokenSeparators: ['/', ',', ';', " "]
+                    });
+                    </script>
+                </div> --}}

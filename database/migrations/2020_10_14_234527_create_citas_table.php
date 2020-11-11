@@ -29,6 +29,7 @@ class CreateCitasTable extends Migration
             
             $table->unsignedBigInteger('user_id');
             $table->string('orden',255);           
+            $table->timestamp('asistio')->nullable();
 
             $table->timestamps();
 

@@ -25,7 +25,7 @@
 
        
        <div class="d-flex justify-content-end ">
-            <button wire:click="store" class="btn btn-primary mr-3">Guardar datos</button>
+            <button wire:click="store" class="btn btn-primary mr-3">Guardar foto</button>
             <button wire:click="atras" class="btn btn-dark ">Atras</button>
        </div>
        

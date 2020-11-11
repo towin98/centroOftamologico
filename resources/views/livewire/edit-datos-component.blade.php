@@ -189,7 +189,7 @@
     <script>
         Swal.fire(
                     '{{ session('message') }}',
-                    'You clicked the button!',
+                    'Ha clic en el botón!',
                     'success'
                     );
     </script>

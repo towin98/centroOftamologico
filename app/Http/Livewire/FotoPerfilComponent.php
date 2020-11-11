@@ -21,7 +21,7 @@ class FotoPerfilComponent extends Component
     public function store()
     {
         $this->validate([
-            'photo' => 'required',
+            'photo' => 'required|image|mimes:jpg,png,jpeg',
         ]); 
 
         $user = Auth::user();

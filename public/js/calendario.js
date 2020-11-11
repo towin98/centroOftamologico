@@ -35,11 +35,17 @@ class Calendario {
     constructor() {
         const self = this;
         $medico_id.addEventListener("change", this.medicoHoras);
+
         $horaSelectInicia.addEventListener("change", (params) => {
             self.mostrarConsultorio(
                 $medico_id.value,
                 $horaSelectInicia.value,
                 $start_mostrar.textContent);
+        });
+
+        $motivo_cita.addEventListener("change", async (params) => {
+            const dataMedico = await self.mostrarMedico($motivo_cita.value);
+            self.selectMedicosRellenar(dataMedico);
         });
     }
 
@@ -47,7 +53,6 @@ class Calendario {
         $selectNombre.value = valor;
         $selectNombre.options[$selectNombre.selectedIndex].defaultSelected = true;
     }
-
 
     incrementarHora(start) {
         let fecha = new Date(start);
@@ -70,7 +75,6 @@ class Calendario {
             end_total = end_hora + ":" + end_minutos + ":" + end_segundos;
             return end_total
         }
-
     }
 
     recolectarDatos(method) {
@@ -105,10 +109,15 @@ class Calendario {
     }
 
     async mostrarConsultorio(id_medico, hora_inicio, fechaDia) {
-        const res = await fetch('cita/buscar/consultorio/'+id_medico+'/'+hora_inicio+'/'+fechaDia);
+        const res = await fetch('cita/buscar/consultorio/' + id_medico + '/' + hora_inicio + '/' + fechaDia);
         const dataConsultorio = await res.json();
         $consultorio.value = dataConsultorio.nombre;
         console.log(dataConsultorio)
+    }
+    async mostrarMedico(id_motivoCita) {
+        const res = await fetch('cita/mostrarMedicosEvento/' + id_motivoCita);
+        const dataMedico = await res.json();
+        return dataMedico;
     }
 
     clearForm() {
@@ -167,7 +176,7 @@ class Calendario {
                 .then(data => {
 
                     if (data) {
-                        //console.log(data)
+                        console.log(data)
 
                         let quitar_final = data
 
@@ -175,7 +184,14 @@ class Calendario {
                             .then(res => res.json())
                             .then(data => {
                                 if (data !== false) {
-                                    //console.log(data)
+                                    if (data.length == 0) {
+                                        Swal.fire({
+                                            icon: 'info',
+                                            title: '<strong>Este medico aun no tiene un turno asignado</strong>',
+                                            text: 'Intenta con otro medico!',
+                                          })
+                                    }
+                                    console.log(data)
 
                                     let array_new = [];
                                     for (let i in data) {
@@ -243,12 +259,29 @@ class Calendario {
 
     selectEpsRellenar(dataEps) {
         $('#remiteEPS').empty();
-
         for (let i = 0; i < dataEps.length; i++) {
             let opcion = document.createElement("option");
             opcion.text = dataEps[i].nombre;
             opcion.value = dataEps[i].id;
             $remiteEPS.add(opcion);
+        }
+    }
+    selectMedicosRellenar(dataMedico) {
+        $('#medico_id').empty();
+        $('#hora').empty();
+        let opcionMedico = document.createElement("option");
+        opcionMedico.text = 'Seleccione medico';
+        $medico_id.add(opcionMedico);
+
+        let opcionHora = document.createElement("option");
+        opcionHora.text = 'Seleccione hora';
+        $horaSelectInicia.add(opcionHora);
+
+        for (let i = 0; i < dataMedico.length; i++) {
+            let opcion = document.createElement("option");
+            opcion.text = dataMedico[i].name + " " + dataMedico[i].lastname;
+            opcion.value = dataMedico[i].id;
+            $medico_id.add(opcion);
         }
     }
 
@@ -334,10 +367,6 @@ d.addEventListener('DOMContentLoaded', () => {
                     dayselect = info.dayEl.outerText;
                     fecha_recu = '';
 
-                    //seleccionamos nada 
-                    $medico_id.value = '';
-                    $medico_id.options[$medico_id.selectedIndex].defaultSelected = true;
-
                     let opt = d.createElement("option");
 
                     opt.value = '';// le damos un valor
@@ -348,7 +377,6 @@ d.addEventListener('DOMContentLoaded', () => {
                     if ($btnBorrar.parentNode) parent.removeChild($btnBorrar);
 
                     $('#exampleModal').modal();
-                    //calendar.addEvent({title:"Evento x", date: info.dateStr}) //añadimos un eventos
                 } else alert('solo puedes tener una cita activa - Borrala si quieres cambiarla');
             },
 
@@ -358,10 +386,16 @@ d.addEventListener('DOMContentLoaded', () => {
                 $('#id').val(info.event.id);
                 $("#verOrden").attr("src", "storage/ordenes/" + event.orden);
                 $("#ordenUpdate").val(event.orden); //solo para fines de actualizar
+                
+                /* Para mostrar medico*/               
+                
+                let opcionMedico = document.createElement("option");
+                opcionMedico.text = event.nombreMedico +" "+ event.apellidoMedico;
+                opcionMedico.value = event.id_medico;
+                $medico_id.add(opcionMedico);
 
-                /* Para mostrar medico*/
-                const medicoEvent_id = event.id_medico
-                calendario.selectEventMostrar(medicoEvent_id, $medico_id);
+                calendario.selectEventMostrar(event.id_medico, $medico_id);
+
 
                 /* mostrar motivo cita*/
                 const motivoCita_id = event.id_title
@@ -414,8 +448,7 @@ d.addEventListener('DOMContentLoaded', () => {
                 $('#start').val(fecha_recu);
                 $('#exampleModalLabel').text('Su cita esta agendada - con los siguientes datos');
 
-
-                let idmedico = medicoEvent_id
+                const idmedico = event.id_medico
 
                 calendario.medicoHoras(idmedico, day, hora_show);
 
@@ -445,7 +478,7 @@ d.addEventListener('DOMContentLoaded', () => {
                         location.reload();
                     }
                 } else {
-                    alert('Verifique datos ingresados');
+                    alert('Verifique datos ingresados, ES POSIBLE QUE ESTE INGRESANDO UN DOCUMENTO NO PERMITIDO (SOLO ARCHIVOS PDF,PNG,JPG,JPGE)');
                 }
             }
 

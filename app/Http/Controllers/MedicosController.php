@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Prophecy\Promise\ReturnPromise;
+use Throwable;
 
 class MedicosController extends Controller
 {
@@ -30,7 +31,7 @@ class MedicosController extends Controller
         $menu = 'medicos-centro';
         $medicos = DB::table('medicos')
             ->join('users', 'medicos.id_user', '=', 'users.id')
-            ->select('users.name', 'users.lastname','users.photo')
+            ->select('users.name', 'users.lastname', 'users.photo')
             ->get();
         return view('medico.medicos-perfil', compact('menu', 'medicos'));
     }
@@ -67,12 +68,11 @@ class MedicosController extends Controller
     public function show($idmedico, $day)
     //buscamos las horas disponibles por medico 
     {
-        $resul= Cita::selectRaw('TIME(start) AS start')
-        ->where('id_medico', $idmedico)
-        ->whereDay('start',$day)
-        ->get();
+        $resul = Cita::withTrashed()->selectRaw('TIME(start) AS start')
+            ->where('id_medico', $idmedico)
+            ->whereDay('start', $day)
+            ->get();
         return response()->json($resul);
-
     }
 
     /**
@@ -107,5 +107,20 @@ class MedicosController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function mostrarMedicosEvento($id_motivoCita)
+    {
+        try {
+            //SELECT medicos.id,users.name FROM `motivo_citas_has__especialidads` INNER JOIN medicos ON motivo_citas_has__especialidads.MEDICOS_id = medicos.id INNER JOIN users ON users.id = medicos.id_user WHERE motivo_citas_has__especialidads.MOTIVO_CITAS_id = 7
+            $medicos = DB::table('motivo_citas_has__especialidads')
+                ->join('medicos', 'motivo_citas_has__especialidads.MEDICOS_id', '=', 'medicos.id')
+                ->join('users', 'users.id', '=', 'medicos.id_user')
+                ->where('motivo_citas_has__especialidads.MOTIVO_CITAS_id', $id_motivoCita)
+                ->select('medicos.id', 'users.name', 'users.lastname')
+                ->get();
+            return response()->json($medicos);
+        } catch (Throwable $th) {
+            return response()->json('error al buscar medicos');
+        }
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Cita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class FiltroCitasController extends Controller
 {
@@ -44,8 +47,32 @@ class FiltroCitasController extends Controller
                 'users.lastname as apellidoPaciente',
                 'users.photo as photoPaciente',
                 'citas.orden',
+                'citas.asistio',
             )
             ->get();
         return $eventos;
     }
+
+    public function asistioCita($idEvento){
+        
+        $respuesta = true;
+        try {
+           Cita::destroy($idEvento);
+            
+        } catch (Throwable $th) {
+            $respuesta = false;
+        }
+        return response()->json($respuesta);
+    }   
+    
+    public function destroy($idEvento){
+        $respuesta = true;
+        try {
+            Cita::withTrashed()->findOrFail($idEvento)->restore();
+        } catch (Throwable $th) {
+            $respuesta = $th;
+        }
+        return response()->json($respuesta);
+    }
+
 }

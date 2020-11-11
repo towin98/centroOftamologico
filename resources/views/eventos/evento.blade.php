@@ -44,18 +44,6 @@
                     <div class="row">
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
-                                <label for="medico_id">Medico</label>
-                                <select class="form-control" name="medico" id="medico_id" required>
-                                    <option value="">Seleccione</option>
-                                    @foreach ($medicos as $medico)
-                                    <option value="{{$medico->id}}">{{$medico->name." ".$medico->lastname }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <!----agregado---->
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
                                 <label for="motivo_cita">Motivo de la cita</label>
                                 <select class="form-control" name="title" id="motivo_cita" required>
                                     <option value="">Seleccione</option>
@@ -65,7 +53,19 @@
                                 </select>
                             </div>
                         </div>
-                        <!----end agg--->
+                        <!----agregado---->
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="medico_id">Medico</label>
+                                <select class="form-control" name="medico" id="medico_id" required>
+                                    <option value="">Seleccione motivo cita</option>
+                                  {{--   @foreach ($medicos as $medico)
+                                    <option value="{{$medico->id}}">{{$medico->name." ".$medico->lastname }}</option>
+                                    @endforeach --}}
+                                </select>
+                            </div>                            
+                        </div>
+                        <!----end--->
 
                         <div class="col-sm-6 col-md-6">  
                             <label for="start">Dia de la cita:</label>

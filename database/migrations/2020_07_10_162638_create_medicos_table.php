@@ -26,8 +26,8 @@ class CreateMedicosTable extends Migration
             $table->unsignedBigInteger('id_especialidad')->nullable();
             $table->unsignedBigInteger('id_user')->nullable();  //quitar nullable a futuro, para pruebas dejar
 
-            $table->text('descripcion_perfil',255)->nullable();
-            $table->string('photo');
+            $table->text('descripcion_perfil',255)->nullable(); //aun sin utulizar 
+            $table->string('photo');//quitar a futuro esta columna ya que se utiliza foto de registro
             $table->timestamps();
                         
             $table->foreign('id_especialidad')->references('id')->on('especialidads');

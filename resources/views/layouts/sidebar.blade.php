@@ -47,7 +47,7 @@
         @can('Agendar Cita')
         <li class="nav-item">
           <a href="{{ route('cita.index') }}" class="nav-link @if ($menu == 'cita') {{ 'active' }}  @endif">
-            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+            <i class="nav-icon fas fa-calendar-alt"></i> 
             <p>
               Cita medica
               <span class="badge badge-info right">2</span>
@@ -59,7 +59,7 @@
         <li class="nav-item">
           <a href="{{ route('Asunto-cita.index') }}"
             class="nav-link @if ($menu == 'motivoCita') {{ 'active' }}  @endif">
-            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+            <i class="nav-icon fas fa-box-open"></i>
             <p>Asunto Cita</p>
           </a>
         </li>
@@ -77,7 +77,7 @@
         @canany(['Crear Rol','Asignar Rol']) {{-- si tiene alguno de estos permisos --}}
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
-            <i class="nav-icon far fa-envelope"></i>
+            <i class="nav-icon fas fa-address-book"></i>
             <p>
               Roles
               <i class="fas fa-angle-left right"></i>
@@ -121,7 +121,7 @@
         @can('Consultorios')
         <li class="nav-item">
           <a href=" {{ route('consultorios') }} " class="nav-link @if ($menu == 'consultorios') {{ 'active' }}  @endif">
-            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+            <i class="nav-icon fas fa-id-card-alt"></i>
             <p>
               Consultorios
             </p>
@@ -143,7 +143,7 @@
         <li class="nav-item">
           <a href="{{ route('turno.index') }}" class="nav-link
           @if ($menu == 'medicos-turno') {{ 'active' }}  @endif">
-            <i class="nav-icon fas fa-users"></i>
+            <i class="nav-icon fas fa-clipboard-list"></i>
             <p>
               Crear Agenda
             </p>
@@ -154,7 +154,7 @@
         <li class="nav-header">MENU</li>
         <li class="nav-item">
         <a href="{{ route('ubicacion-geografica') }}" class="nav-link  @if ($menu == 'ubicacion') {{ 'active' }}  @endif">
-            <i class="nav-icon fas fa-users"></i>
+            <i class="nav-icon fas fa-map-marker-alt"></i>
             <p>
               Ubicacion Clinica.
             </p>
@@ -162,7 +162,7 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link  @if ($menu == 'guia') {{ 'active' }}  @endif">
-            <i class="nav-icon fas fa-users"></i>
+            <i class="nav-icon fas fa-paste"></i>
             <p>
               Guia para agendar citas.
             </p>

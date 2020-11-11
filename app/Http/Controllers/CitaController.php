@@ -27,13 +27,9 @@ class CitaController extends Controller
 
     public function index()
     {
-        $medicos = DB::table('medicos')
-            ->join('users', 'medicos.id_user', '=', 'users.id')
-            ->select('medicos.id', 'users.name', 'users.lastname')
-            ->get();
         $motivos = MotivoCita::all();
         $menu = 'cita';
-        return view('eventos.evento', compact('medicos', 'menu', 'motivos'));
+        return view('eventos.evento', compact('menu', 'motivos'));
     }
 
     /**
@@ -43,8 +39,6 @@ class CitaController extends Controller
      */
     public function create()
     {
-        // $start = evento::all('start');
-        // return response()->json($start);  
     }
 
     /**
@@ -55,14 +49,7 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->hasFile('orden')) {
-            $file = $request->file('orden');
-            $ruta = public_path() . '/storage/ordenes';
-            $fileName = uniqid() . $file->getClientOriginalName();
-            $file->move($ruta, $fileName);
-        } else {
-            return response()->json('error');
-        }
+
 
         $validatedData = Validator::make($request->all(), [
             'title' => 'required',
@@ -70,9 +57,19 @@ class CitaController extends Controller
             'remiteEPS' => 'required',
             'start' => 'required',
             'consultorio' => 'required',
+            'orden' => 'required|mimes:jpg,png,jpeg,pdf|max:10000',
         ]);
         if ($validatedData->fails()) {
             return response()->json('error'/* $validatedData->errors(), 422 */);
+        }
+
+        if ($request->hasFile('orden')) {
+            $file = $request->file('orden');
+            $ruta = public_path() . '/storage/ordenes';
+            $fileName = uniqid() . $file->getClientOriginalName();
+            $file->move($ruta, $fileName);
+        } else {
+            return response()->json('error');
         }
 
         $result = Cita::create([
@@ -97,12 +94,17 @@ class CitaController extends Controller
      * @param  \App\Cita  $cita
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //desplegar inf
         $eventos = DB::table('citas')
             ->join('motivo_citas', 'motivo_citas.id', '=', 'citas.title')
+
+            ->join('medicos', 'medicos.id', '=', 'citas.id_medico')
+            ->join('users', 'users.id', '=', 'medicos.id_user')
+
             ->where('citas.user_id', Auth::user()->id)
+            ->where('asistio', null)
             ->select(
                 'citas.id',
                 'motivo_citas.nombreasunto as title',
@@ -116,9 +118,14 @@ class CitaController extends Controller
                 'citas.end',
                 'citas.user_id',
                 'citas.title as id_title',
-                'citas.orden'
+                'citas.orden',
+
+                'medicos.id as id_medico',
+                'users.name as nombreMedico',
+                'users.lastname as apellidoMedico'
             )
             ->get();
+        //$eventos = Cita::all();
         return $eventos;
     }
 
@@ -150,14 +157,14 @@ class CitaController extends Controller
 
         if ($request->hasFile('orden')) {
             //luego eliminamos archivo
-            Storage::delete("public/ordenes/".$fileName);
+            Storage::delete("public/ordenes/" . $fileName);
 
             $file = $request->file('orden');
             $ruta = public_path() . '/storage/ordenes';
             $fileName = uniqid() . $file->getClientOriginalName();
             $file->move($ruta, $fileName);
         }
-        
+
         $res = Cita::findOrFail($id)->update([
             'title' => $request->title,
             'descripcion' => $request->descripcion,
@@ -182,9 +189,10 @@ class CitaController extends Controller
      */
     public function destroy($id)
     {
-        $cita = Cita::where('id',$id)->get();
-        Storage::delete("public/ordenes/".$cita[0]->orden);
-        Cita::destroy($id);
-        return response()->json(true);        
+        $cita = Cita::withTrashed()->where('id', $id)->get();
+        Storage::delete("public/ordenes/" . $cita[0]->orden);
+        Cita::withTrashed()->findOrFail($id)->restore();
+        Cita::withTrashed()->findOrFail($id)->forceDelete();
+        return response()->json(true);
     }
 }
