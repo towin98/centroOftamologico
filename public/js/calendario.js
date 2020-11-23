@@ -23,6 +23,7 @@ let dateStart;
 let dateEnd;
 let dateClick;
 
+
 d.getElementById('verDocumento').addEventListener('click', (e) => {
     $('#staticBackdrop').modal();
 });
@@ -189,7 +190,7 @@ class Calendario {
                                             icon: 'info',
                                             title: '<strong>Este medico aun no tiene un turno asignado</strong>',
                                             text: 'Intenta con otro medico!',
-                                          })
+                                        })
                                     }
                                     console.log(data)
 
@@ -312,6 +313,9 @@ class Calendario {
 const calendario = new Calendario();
 
 d.addEventListener('DOMContentLoaded', () => {
+
+    $(".loader").fadeOut("slow");
+
     citaShow();
     async function citaShow() {
 
@@ -381,16 +385,17 @@ d.addEventListener('DOMContentLoaded', () => {
             },
 
             eventClick: async function (info) {
+                $(".loader").fadeIn("slow");
                 calendario.clearForm();
                 const event = info.event.extendedProps
                 $('#id').val(info.event.id);
                 $("#verOrden").attr("src", "storage/ordenes/" + event.orden);
                 $("#ordenUpdate").val(event.orden); //solo para fines de actualizar
-                
-                /* Para mostrar medico*/               
-                
+
+                /* Para mostrar medico*/
+
                 let opcionMedico = document.createElement("option");
-                opcionMedico.text = event.nombreMedico +" "+ event.apellidoMedico;
+                opcionMedico.text = event.nombreMedico + " " + event.apellidoMedico;
                 opcionMedico.value = event.id_medico;
                 $medico_id.add(opcionMedico);
 
@@ -453,7 +458,7 @@ d.addEventListener('DOMContentLoaded', () => {
                 calendario.medicoHoras(idmedico, day, hora_show);
 
                 if ($btnAgregar.parentNode) parent.removeChild($btnAgregar);
-
+                $(".loader").fadeOut("slow");
                 $('#exampleModal').modal();
             },
         });
@@ -466,8 +471,10 @@ d.addEventListener('DOMContentLoaded', () => {
             let buttonClick = e.submitter.id
 
             if (buttonClick == 'btn-Agregar') {
+                $(".loader").fadeIn("slow");
                 const form_data = calendario.recolectarDatos('POST');
-                var respuesta = await calendario.Enviar_informacion('', form_data);
+                let respuesta = await calendario.Enviar_informacion('', form_data);
+                $(".loader").fadeOut("slow");
                 if (respuesta != 'error') {
                     let result = await Swal.fire(
                         'Cita agendada!',

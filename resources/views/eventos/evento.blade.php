@@ -18,9 +18,26 @@
 
 
 @section('content')
+    <style>
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('img/loading.gif') 50% 50% no-repeat rgb(249, 249, 249);
+            opacity: .8;
+        }
+    </style>
 
 <!-------medicos card--->
 <div class="content-wrapper" id="contenido-">
+
+
+    <div class="loader"></div>
+
+
     <div class="mx-auto calendar" id='calendar'></div>
 </div>
 
@@ -59,15 +76,15 @@
                                 <label for="medico_id">Medico</label>
                                 <select class="form-control" name="medico" id="medico_id" required>
                                     <option value="">Seleccione motivo cita</option>
-                                  {{--   @foreach ($medicos as $medico)
+                                    {{--   @foreach ($medicos as $medico)
                                     <option value="{{$medico->id}}">{{$medico->name." ".$medico->lastname }}</option>
                                     @endforeach --}}
                                 </select>
-                            </div>                            
+                            </div>
                         </div>
                         <!----end--->
 
-                        <div class="col-sm-6 col-md-6">  
+                        <div class="col-sm-6 col-md-6">
                             <label for="start">Dia de la cita:</label>
                         </div>
                         <div class="col-sm-6 col-md-6">
@@ -83,7 +100,8 @@
                             </div>
                             <div>
                                 <label for="">Consultorio asistir</label>
-                                <input type="text" class="form-control" name="consultorio" id="consultorio"  readonly placeholder="Consultorio al cual debe ir">
+                                <input type="text" class="form-control" name="consultorio" id="consultorio" readonly
+                                    placeholder="Consultorio al cual debe ir">
                             </div>
                         </div>
 
@@ -96,10 +114,10 @@
                             </div>
                             <div class="form-check">
                                 <div class="form-group">
-                                    <input  type="radio" name="eps" id="particular" value="1">
+                                    <input type="radio" name="eps" id="particular" value="1">
                                     <label class="form-check-label" for="particular">
                                         Particular
-                                    </label>                                
+                                    </label>
                                     <input type="radio" name="eps" id="prepagada" value="2">
                                     <label class="form-check-label" for="prepagada">
                                         Prepagada
