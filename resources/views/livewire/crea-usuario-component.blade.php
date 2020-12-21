@@ -194,7 +194,7 @@
             </div>
 
             @if ($especialidad == true)
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <div class="form-group position-relative">
                     <label for="especialidadMedico">Especialidad
                         <span class="text-danger">*</span>
@@ -213,7 +213,7 @@
 
                     
                 </div>
-            </div>
+            </div> --}}
             <div class="col-md-6">
                 <div class="form-group position-relative">
                     <label for="asuntosCita">Asuntos de citas que atendera

@@ -11818,7 +11818,8 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
 }
 
 .user-panel img {
-  height: auto;
+  /* height: auto; */
+  height: 2.1rem;
   width: 2.1rem;
 }
 
@@ -31220,4 +31221,4 @@ a.text-muted:hover {
 [class*="accent-"] a.btn-dark {
   color: #ffffff;
 }
-/*# sourceMappingURL=adminlte.css.map */
+# sourceMappingURL=adminlte.css.map 

@@ -9,9 +9,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Centro Oftamologico - Cuenta {{-- {{ config('app.name', 'Laravel') }} --}}</title>
+    <title>Centro Oftamologico - Cuenta {{-- {{ config('app.name', 'Laravel') }}
+        --}}</title>
 
-
+    <link href="{{ asset('css/loading.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
 
@@ -27,10 +28,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css">
 
 
-    {{--  <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> --}}
+    {{--
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    --}}
 
-    {{--  <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}"> --}}
+    {{--
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}"> --}}
 
     @yield('link')
 
@@ -45,19 +49,20 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" id="cuerpo">
     <div class="wrapper">
-        <div id="app"> {{-- navbar navbar-expand-lg navbar-light bg-light --}}
+        <div id="app"> {{-- navbar navbar-expand-lg navbar-light bg-light
+            --}}
             <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                 <div class="container mt-2 mb-2">
                     {{-- <a class="navbar-brand" href="{{ url('/evento') }}">
-                    {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Laravel') }}
                     </a> --}}
 
 
-                    @if (isset($menu) )
-                    @include('layouts.sidebar')
-                    @yield('openSidebar')
+                    @if (isset($menu))
+                        @include('layouts.sidebar')
+                        @yield('openSidebar')
                     @endif
 
 
@@ -71,50 +76,51 @@
                         <ul class="navbar-nav ml-auto">
                             <!-- Authentication Links -->
                             @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Login</a>
-                            </li>
-                            @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">Registro</a>
-                            </li>
-                            @endif
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                                </li>
+                                @if (Route::has('register'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('register') }}">Registro</a>
+                                    </li>
+                                @endif
                             @else
 
-                            {{-- @include('paciente.menu-paciente') --}}
+                                {{-- @include('paciente.menu-paciente')
+                                --}}
 
-                            <li class="nav-item">
-                                <p class="nav-link"><strong>Rol:
-                                    </strong>{{ implode (', ',Auth::user()->getRoleNames()->toArray()) }}</p>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-primary" href="#"
-                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                    v-pre>
-                                    <strong> {{ Auth::user()->name }}</strong> <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
-                                        <strong>{{ __('Cerrar sesión') }}</strong>
+                                <li class="nav-item">
+                                    <p class="nav-link"><strong>Rol:
+                                        </strong>{{ implode(
+                                            ', ',
+                                            Auth::user()->getRoleNames()->toArray(),
+                                        ) }}</p>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-primary" href="#"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                        v-pre>
+                                        <strong> {{ Auth::user()->name }}</strong> <span class="caret"></span>
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                                 document.getElementById('logout-form').submit();">
+                                            <strong>{{ __('Cerrar sesión') }}</strong>
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </li>
                             @endguest
                         </ul>
                     </div>
                 </div>
             </nav>
         </div>
-
-
-
 
         <main>
             @yield('content')
@@ -123,6 +129,7 @@
             @yield('crearRol')
             @yield('asignarRolUser')
             @yield('editar-datos')
+            @yield('cambiar-password')
             @yield('foto-perfil')
             @yield('medico-horario')
             @yield('crearUsuario')
@@ -130,7 +137,7 @@
             @yield('consultorios')
             @yield('citas-agendadas')
             @yield('ubicaciongeografica')
-
+            <div class="loader"></div>
         </main>
     </div>
     <!-- Scripts -->
@@ -145,7 +152,6 @@
     <!----sweetalert2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
-
     @livewireScripts
 
     @yield('scripts')
@@ -156,6 +162,13 @@
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     <!-- overlayScrollbars -->
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(params) {
+            $(".loader").fadeOut("slow");
+        });
+
+    </script>
 </body>
 
 </html>

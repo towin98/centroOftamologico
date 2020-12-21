@@ -23,7 +23,7 @@
                     <p class="card-text">{{$medico->lastname}}</p>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
+                    <small class="text-muted">{{$medico->email}}</small>
                 </div>
             </div>
             @endforeach

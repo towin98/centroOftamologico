@@ -18,12 +18,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'tipo', 
-        'documentNumber', 
-        'name', 
-        'lastname', 
-        'phone', 
-        'email', 
+        'tipo',
+        'documentNumber',
+        'name',
+        'lastname',
+        'phone',
+        'email',
         'password',
         
         'direccion',
@@ -31,6 +31,40 @@ class User extends Authenticatable
         'tipo_eps',
         'photo'
     ];
+    
+    /* Mutadores = se utilza para moificar el atributo de un valor
+    antes de hacer la insert en la DB 
+
+    Accesores = Son al momento de acceder a los datos estos nos
+    regresaran en un formato expecifico dado. 
+    */
+
+    public function setNameAttribute($valor)
+    {
+        $this->attributes['name'] = strtolower($valor);
+    }
+
+    public function getNameAttribute($valor)
+    {
+        /* ucfirst() la letra en mayuscula */
+        return ucwords($valor);
+    }
+
+    public function setLastnameAttribute($valor)
+    {
+        $this->attributes['lastname'] = strtolower($valor);
+    }
+
+    public function getLastnameAttribute($valor)
+    {
+        /* ucfirst() la letra en mayuscula */
+        return ucwords($valor);
+    }
+
+    public function setEmailAttribute($valor)
+    {
+        $this->attributes['email'] = strtolower($valor);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

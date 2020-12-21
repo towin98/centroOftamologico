@@ -22,6 +22,7 @@
                 <thead>
                     <tr class="table-primary">
                         <th>NOMBRE ROL</th>
+                        <th>DURACCION</th>
                         <th style="width: 100px;">EDITAR</th>
                         <th style="width: 100px;">ELIMINAR</th>
                     </tr>
@@ -31,11 +32,11 @@
 
                     <tr>
                         <td>{{$motivoCita->nombreasunto}}</td>
+                        <td>{{$motivoCita->duracionCita}} Minutos</td>
                         <td>
                             <div class="d-flex flex-column">
                                 <button type="button" id="btn-editar-asunto" class="btn btn-success fas fa-edit"
                                     data-id="{{$motivoCita->id}}">
-                                   
                                 </button>
                             </div>
                         </td>
@@ -43,7 +44,7 @@
                             <div class="d-flex flex-column">
                                 <button type=" button" id="btnEliminarAsunto" class="btn btn-danger far fa-trash-alt"
                                     data-id="{{$motivoCita->id}}">
-                                    
+
                                 </button>
                             </div>
                         </td>
@@ -73,10 +74,21 @@
                 <form id="formAsuntoCita">
                     <input type="hidden" name="id-asunto" id="id-asunto">
                     <div id="put"></div>
-                    <div class="form-group">
-                        <label for="nombreasunto">Nombre Asunto de cita</label>
-                        <input type="text" name="nombreasunto" id="nombreasunto" class="form-control">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="nombreasunto">Asunto de cita</label>
+                                <input type="text" name="nombreasunto" id="nombreasunto" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="duracionCita">Duraccion</label>
+                                <input type="number" name="duracionCita" id="duracionCita" class="form-control" required>
+                            </div>
+                        </div>
                     </div>
+
 
                     <div class="modal-footer">
                         <button type="submit" id="saveAsunto" class="btn btn-primary">Guardar asunto</button>

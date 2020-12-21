@@ -140,6 +140,7 @@ class HorasSeeder extends Seeder
         foreach ($arrayMotivoCita as $value) {
             MotivoCita::create([
                 'nombreasunto' => $value,
+                'duracionCita' => 30,
             ]);
         }
     }

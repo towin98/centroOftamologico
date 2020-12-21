@@ -40,6 +40,7 @@ class MotivoCitaController extends Controller
     {
         $validatedData = Validator::make($request->all(), [
             'nombreasunto' => 'required',
+            'duracionCita' => 'required|max:2',
         ]);
         if ($validatedData->fails()) {
             return response()->json($validatedData->errors(), 422);
@@ -47,6 +48,7 @@ class MotivoCitaController extends Controller
 
         $motivoCita = MotivoCita::create([
             'nombreasunto' => $request->nombreasunto,
+            'duracionCita' => $request->duracionCita,
         ]);
         return response()->json($motivoCita);
     }
@@ -86,8 +88,9 @@ class MotivoCitaController extends Controller
         $motivoCitas = MotivoCita::findOrFail($id);
         $motivoCitas->update([
             'nombreasunto' => $request->nombreasunto,
+            'duracionCita' => $request->duracionCita,
         ]);
-        return redirect()->back();
+        return response()->json($motivoCitas);
     }
 
     /**

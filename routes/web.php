@@ -1,10 +1,6 @@
 <?php
 
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-
-
-
 
 //Auth::routes();
 
@@ -14,8 +10,8 @@ Route::post('login', 'Auth\LoginController@login')->name('login-ingreso');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 //Register routes
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register');
+Route::get('registro', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('registroForm', 'Auth\RegisterController@register')->name('registroForm');
 
 //password reset routes
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -25,7 +21,10 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::group(['middleware' => ['permission:Editar datos']], function () {
     //editar datos users
-    Route::resource('datos-user', 'UsersController');
+    Route::get('/datos-usuario', 'UsersController@index')->name('datos-usuario');
+    Route::get('/datos-usuario/foto', 'UsersController@foto')->name('datos-usuario.foto');
+    Route::get('/datos-usuario/cambiarPassword', 'UsersController@cambiarPassword')->name('datos-usuario.cambiar-password');
+    Route::post('/datos-usuario/cambiarPassword', 'UsersController@cambiarPasswordResult')->name('datos-usuario.cambiar-password');
 });
 
 Route::group(['middleware' => ['permission:Crear Rol']], function () {
@@ -41,7 +40,6 @@ Route::group(['middleware' => ['permission:Crear Rol']], function () {
 });
 
 Route::group(['middleware' => ['permission:Asignar Rol']], function () {
-
     Route::get('/asignarRolUser', 'HomeController@asignarRolUser')->name('asignarRolUser');
     Route::get('/asignarRolUserEdit', 'HomeController@asignarRolUserEdit')->name('asignarRolUserEdit');
 });
@@ -49,7 +47,7 @@ Route::group(['middleware' => ['permission:Asignar Rol']], function () {
 Route::get('medicos-perfil', 'MedicosController@medicos_perfil')->name('medicos-perfil');   //ver medico perfil
 
 Route::group(['middleware' => ['permission:Asunto cita']], function () {
-    //motivo cita 
+    //motivo cita
     Route::resource('/Asunto-cita', 'MotivoCitaController');
 });
 
@@ -59,14 +57,16 @@ Route::group(['middleware' => ['permission:Agendar Cita']], function () {
     Route::get('cita/mostrarMedicosEvento/{id_motivoCita}', 'MedicosController@mostrarMedicosEvento');
 
     Route::get('/medico/{idmedico}/{day}', 'MedicosController@show')->name('medico.show'); //indispensable para mostrar
-    Route::resource('/cita', 'CitaController');
+    
+    Route::resource('/cita', 'CitaController'); //modificar esto a rutas
+    Route::get('/cita/buscamosTurnos/{dia}/{idMedico}', 'CitaController@buscamosTurnos');
+    Route::get('/cita/buscarCitaMedico/{idMedico}/{fechaCita}', 'CitaController@buscarCitaMedico');
 
-    //buscamos consultario en base a la hora 
+    //buscamos consultario en base a la hora
     Route::get('cita/buscar/consultorio/{id_medico}/{hora_inicio}/{dia_turno}', 'ConsultariosController@buscarConsultorioPorHora')->name('cita/buscar/consultorio');
 
     //hora
     Route::get('horas/{fechaDia}/{idMedico}', 'HoraController@show')->name('horas.show'); //indispensable para citas
-
 
     //eps
     Route::get('eps/{idtipo}', 'EpsController@mostrarEps')->name('eps.mostrarEps');
@@ -75,7 +75,7 @@ Route::group(['middleware' => ['permission:Agendar Cita']], function () {
 
 
 Route::group(['middleware' => ['permission:Crear Usuarios']], function () {
-    // vista crear usuario 
+    // vista crear usuario
     Route::get('/crear-usuario', 'HomeController@vistaCrearUsuario')->name('vistaCrearUsuario');
 });
 
@@ -95,10 +95,11 @@ Route::group(['middleware' => ['permission:Consultorios']], function () {
 });
 
 Route::group(['middleware' => ['permission:Ver citas y filtrar']], function () {
-    //filtro citas agendadas
+    /*filtro citas agendadas*/
     Route::get('citas-agendadas', 'FiltroCitasController@index')->name('citas-agendadas');
-    Route::get('citas-filtro/mostrar', 'FiltroCitasController@show')->name('citas-filtro/mostrar');
-    //asistencia  citas
+    Route::post('citas-filtro/mostrar', 'FiltroCitasController@show')->name('citas-filtro/mostrar'); //->muestra eventos
+
+    /*asistencia  citas*/
     Route::delete('citas-filtro/mostrar/asistio/{idCita}', 'FiltroCitasController@asistioCita');
     Route::delete('citas-filtro/mostrar/noAsistio/{idCita}', 'FiltroCitasController@destroy');
     //eps
@@ -107,5 +108,5 @@ Route::group(['middleware' => ['permission:Ver citas y filtrar']], function () {
 
 Route::get('ubicacion-geografica', function () {
     $menu = 'ubicacion';
-    return view('ubicaciongeografica.ubicacion',compact('menu'));
+    return view('ubicaciongeografica.ubicacion', compact('menu'));
 })->name('ubicacion-geografica');

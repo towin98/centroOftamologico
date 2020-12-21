@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMotivoCitasHasEspecialidadsTable extends Migration
+class CreateMotivoCitasHasMedicoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateMotivoCitasHasEspecialidadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('motivo_citas_has__especialidads', function (Blueprint $table) {
+        Schema::create('motivo_citas_has_medico', function (Blueprint $table) {
             $table->unsignedBigInteger('MOTIVO_CITAS_id');
-            $table->unsignedBigInteger('ESPECIALIDADS_id');
+           /*  $table->unsignedBigInteger('ESPECIALIDADS_id'); */
             $table->unsignedBigInteger('MEDICOS_id');
             $table->timestamps();
 
             $table->foreign('MOTIVO_CITAS_id')->references('id')->on('motivo_citas');
-            $table->foreign('ESPECIALIDADS_id')->references('id')->on('especialidads');
+            /* $table->foreign('ESPECIALIDADS_id')->references('id')->on('especialidads'); */
             $table->foreign('MEDICOS_id')->references('id')->on('medicos');
 
         });

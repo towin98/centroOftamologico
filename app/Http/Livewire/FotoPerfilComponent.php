@@ -34,12 +34,12 @@ class FotoPerfilComponent extends Component
             'photo' => $this->photo->store('fotos','public'),
         ]);
         
-        return redirect()->to('/datos-user');
+        return redirect()->to('/datos-usuario');
      
     }
     public function atras()
     {
-        return redirect()->to('/datos-user');
+        return redirect()->to('/datos-usuario');
     }
 
 

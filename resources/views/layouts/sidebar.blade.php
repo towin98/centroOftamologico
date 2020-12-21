@@ -9,7 +9,7 @@
   <a href="#" class="brand-link">
     <img src="{{ asset('dist/img/logo.jpg') }}" alt="Logo empresarial" class="brand-image img-circle elevation-3"
       style="opacity: .8">
-    <span class="brand-text font-weight-light">Centro Oftamologico</span>
+    <span class="brand-text font-weight-light"><h6>Centro oftalmológico</h6></span>
   </a>
 
   <!-- Sidebar -->
@@ -17,12 +17,12 @@
 
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <a href="{{ route('datos-user.create') }}">
+        <a href="{{ route('datos-usuario.foto') }}">
           <img src="{{ asset('storage').'/'.Auth::user()->photo }}" class="img-circle elevation-2" alt="User Image">
         </a>
       </div>
       <div class="info">
-        <a href="{{ route('datos-user.create') }}" class="d-block">{{ Auth::user()->name }}
+        <a href="{{ route('datos-usuario.foto') }}" class="d-block">{{ Auth::user()->name }}
           {{  Auth::user()->lastname }}</a>
       </div>
     </div>
@@ -33,7 +33,7 @@
         @can('Editar datos')
         <li class="nav-header">Datos</li>
         <li class="nav-item">
-          <a href="{{ route('datos-user.index') }}"
+          <a href="{{ route('datos-usuario') }}"
             class="nav-link  @if ($menu == 'editar-datos') {{ 'active' }}  @endif">
             <i class="nav-icon fas fa-chalkboard-teacher"></i>
             <p>

@@ -152,7 +152,7 @@ class HorarioMedicosComponent extends Component
             'hora_fin' => $this->hora_fin,
             'id_consultorio' => $this->consultorio,
         ]);
-        $this->limpiarCampos();
+        $this->default();
         session()->flash('message', 'Horario Actualizado');
     }
 

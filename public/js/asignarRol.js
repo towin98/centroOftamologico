@@ -1,7 +1,6 @@
 const $rolSelectt = document.getElementById('name');
 const $formAsignarRol = document.getElementById('formAsignarRol')
 
-
 function asignarRol(idUser, rolname) {
   $rolSelectt.innerText = null;
   document.getElementById('idUser').value = idUser
@@ -67,7 +66,6 @@ $formAsignarRol.addEventListener('submit', async (e) => {
   } catch (error) {
     alert(Error + 'Error al actualizar')
   }
-
 
 })
 

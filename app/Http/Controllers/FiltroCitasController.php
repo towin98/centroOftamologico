@@ -25,11 +25,14 @@ class FiltroCitasController extends Controller
         return view('eventos.citas-agendadas', compact('menu', 'medicos'));
     }
 
-    public function show()
+    public function show(Request $request)
     {
         $eventos = DB::table('citas')
             ->join('motivo_citas', 'motivo_citas.id', '=', 'citas.title')
             ->join('users', 'users.id', '=', 'citas.user_id')
+            ->where('citas.fecha_cita', '>=', $request->startDate)
+            ->where('citas.fecha_cita', '<=', $request->endDate)
+            ->where('citas.id_medico', $request->idMedico)
             ->select(
                 'citas.id',
                 'motivo_citas.nombreasunto as title',

@@ -4,6 +4,7 @@ let put = document.getElementById('put');
 let tituloModal = document.getElementById('modalMotivoCitaLabel'); // titulo modal
 let idAsunto = document.getElementById('id-asunto'); // 
 let nombreAsuntoCita = document.getElementById('nombreasunto');
+let duracion = document.getElementById('duracionCita');
 
 document.addEventListener('click', async (e) => {
 
@@ -16,6 +17,7 @@ document.addEventListener('click', async (e) => {
 
       tituloModal.textContent = "Editar Asunto " + data.nombreasunto;
       nombreAsuntoCita.value = data.nombreasunto;
+      duracion.value = data.duracionCita;
       saveAsunto.textContent = "Actualizar";
       saveAsunto.id = "btnActualizarAsunto";
       $('#modalMotivoCita').modal();
@@ -94,6 +96,7 @@ document.addEventListener('click', async (e) => {
   }
 
   if (e.target.matches("#btnActualizarAsunto")) {
+    e.preventDefault();
     const myHeader = new Headers({
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     });
@@ -124,6 +127,7 @@ document.addEventListener('click', async (e) => {
 
 function clear() {
   nombreAsuntoCita.value = '';
+  //duracion.value = '';
   tituloModal.textContent = 'Crear nuevo Asunto';
   idAsunto.value = '';
   put.innerHTML = ``;

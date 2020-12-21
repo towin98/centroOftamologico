@@ -16,6 +16,8 @@ class CreateMotivoCitasTable extends Migration
         Schema::create('motivo_citas', function (Blueprint $table) {
             $table->id();
             $table->string('nombreasunto');
+            $table->string('duracionCita', 2);
+            
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -22,6 +23,7 @@ class EditDatosComponent extends Component
     public $idUser;
     public $eps;
     
+    public $has;
     public $fotocambia;
 
     public function mount()
@@ -72,6 +74,7 @@ class EditDatosComponent extends Component
             'tipo_eps' => $this->tipo_eps,
            
         ]);
+        
                         //$this->photo->storeAs('photos', $this->photo);
         session()->flash('message', 'Datos actualizados correctamente' );
         

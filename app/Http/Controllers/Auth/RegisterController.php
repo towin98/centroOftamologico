@@ -53,15 +53,17 @@ class RegisterController extends Controller
             'documentNumber' => ['required', 'max:20', 'unique:users'],
             'tipo' => ['required'],
             'name' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'min:5', 'max:40'], 
-            'phone' => ['required', 'min:8', 'max:14'], 
+            'lastname' => ['required', 'min:5', 'max:40'],
+            'phone' => ['required', 'min:8', 'max:14'],
 
             'direccion' =>  ['required', 'max:255'],
             'tipo_sangre' => 'required',
             'tipo_eps' => 'required',
-            
+
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'max:40'],
+
+            'passwordNew'              => 'required|min:6|max:30',
+            'passwordConfirm' => 'required|same:passwordNew',
         ]);
     }
 
@@ -84,9 +86,8 @@ class RegisterController extends Controller
             'tipo_sangre' => $data['tipo_sangre'],
             'tipo_eps' => $data['tipo_eps'],
 
-
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['passwordNew']),
             'photo' => 'fotos/perfil-undefined/personPerfil.png',
         ]);
         $userRolPaciente->assignRole('Paciente');

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Cita;
+use App\Eps;
 use Illuminate\Http\Request;
 use App\Medico;
 use App\MotivoCita;
+use App\Turno;
 use Carbon\Carbon;
 use Facade\FlareClient\Time\Time;
 use Illuminate\Support\Facades\Auth;
@@ -49,15 +51,13 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $validatedData = Validator::make($request->all(), [
             'title' => 'required',
             'medico' => 'required',
             'remiteEPS' => 'required',
             'start' => 'required',
             'consultorio' => 'required',
-            'orden' => 'required|mimes:jpg,png,jpeg,pdf|max:10000',
+            'orden' => 'required|mimes:jpg,png,jpeg,pdf|max:5000', //kb
         ]);
         if ($validatedData->fails()) {
             return response()->json('error'/* $validatedData->errors(), 422 */);
@@ -119,29 +119,38 @@ class CitaController extends Controller
                 'citas.user_id',
                 'citas.title as id_title',
                 'citas.orden',
-
                 'medicos.id as id_medico',
                 'users.name as nombreMedico',
                 'users.lastname as apellidoMedico'
             )
             ->get();
-        //$eventos = Cita::all();
         return $eventos;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Cita  $cita
+     * @param  \App\Cita  $idMedico
+     * @param  \App\Cita  $fechaCita
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function buscarCitaMedico($idMedico, $fechaCita)
     {
+        /* SELECT * FROM `citas` WHERE id_medico = 1 and fecha_cita = '2020-12-03' */
+        $dConCit = Cita::withTrashed()->where([
+            'id_medico' => $idMedico,
+            'fecha_cita' => $fechaCita
+        ])->get();
+        return response()->json($dConCit);
+
+        /*
+        //esto es para  buscar por dia
         $hora_hoy = Cita::selectRaw('TIME(start) AS start, TIME(end) AS end')
-            ->whereDay('start', $id)
+            ->whereDay('start', $id)   // ------> cambiar tiene que ser where
             ->get();
         return response()->json($hora_hoy);
-        //SELECT DATE(`date_time_field`) AS date_part, TIME(`date_time_field`) AS time_part FROM `your_table`
+        //SELECT DATE(`start`) AS date_part, TIME(`end`) AS time_part FROM `citas`
+         */
     }
 
     /**
@@ -194,5 +203,21 @@ class CitaController extends Controller
         Cita::withTrashed()->findOrFail($id)->restore();
         Cita::withTrashed()->findOrFail($id)->forceDelete();
         return response()->json(true);
+    }
+
+    /**
+     * Buscar turno recibe parametros el dia y el id del medio.
+     *
+     * @param  \App\Cita  $
+     * @param  \App\Cita  $idMedio
+     * @return \Illuminate\Http\Response
+     */
+    public function buscamosTurnos($dia, $idMedico)
+    {
+        $cita = Turno::where('id_medico', $idMedico)
+            ->where('dia_turno', $dia)
+            ->get();
+
+        return response()->json($cita);
     }
 }

@@ -14,12 +14,12 @@ class MedicosSeeder extends Seeder
      */
     public function run()
     {
-        $array = array('Ópticos' => 1, 'Optometristas' => 2, 'Oftalmólogos' => 3);
+        /* $array = array('Ópticos' => 1, 'Optometristas' => 2, 'Oftalmólogos' => 3);
 
         foreach ($array as $name => $value) {
             especialidad::create([
                 'name' => $name
             ]);
-        }
+        } */
     }
 }

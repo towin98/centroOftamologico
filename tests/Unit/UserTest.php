@@ -2,7 +2,11 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+//use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
+
 
 class UserTest extends TestCase
 {
@@ -13,6 +17,10 @@ class UserTest extends TestCase
      */
     public function testExample()
     {
-        $this->assertTrue(true);
+        $response = $this->get(route('login'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('auth.login');
     }
+
 }

@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class MotivoCita extends Model
 {
     protected $fillable = [
-        'nombreasunto'
+        'nombreasunto',
+        'duracionCita'
     ];
     protected $table = 'motivo_citas';
 }

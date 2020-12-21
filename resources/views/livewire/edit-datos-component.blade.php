@@ -12,7 +12,8 @@
                     <img src="{{ asset('storage').'/'.Auth::user()->photo }}" class="rounded-circle mx-auto d-block"
                         style="width: 10.6rem; height: 10.6rem;">
                     @endif
-                    <a class="btn btn-dark btn-block" href="{{ route('datos-user.create') }}">Cambiar imagen</a>
+                    <a class="btn btn-dark btn-block" href="{{ route('datos-usuario.foto') }}">Cambiar imagen</a>
+                    <a class="btn btn-info btn-block" href="{{ route('datos-usuario.cambiar-password') }}">Cambiar contraseña</a>
                 </div>
 
                 <div class="col-sm-4 col-lg-4">
@@ -67,6 +68,7 @@
                             <option selected="" disabled=""></option>
                             <option value="CC">CC - Cédula de ciudadanía</option>
                             <option value="CE">CE - Tarjeta de Identidad</option>
+                            <option value="RC">RC - Registro civil</option>
                         </select>
 
                         @error('tipo')

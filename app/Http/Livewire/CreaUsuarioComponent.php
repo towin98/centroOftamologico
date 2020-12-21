@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Eps;
 use App\especialidad;
 use App\Medico;
-use App\Motivo_citas_has__especialidad;
+use App\Motivo_citas_has_medico;
 use App\MotivoCita;
 use App\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
@@ -34,14 +34,14 @@ class CreaUsuarioComponent extends Component
         );
         $eps = Eps::all();
         $roles = Role::all();
-        $especialidades = especialidad::all();
+        /* $especialidades = especialidad::all(); */
         $MotivoCitas = MotivoCita::all();
         if ($this->rol == 2) {
             $this->especialidad = true;
         } else {
             $this->especialidad = false;
         }
-        return view('livewire.crea-usuario-component', compact('roles', 'eps', 'tipoSangre', 'especialidades', 'MotivoCitas'));
+        return view('livewire.crea-usuario-component', compact('roles', 'eps', 'tipoSangre', /* 'especialidades', */ 'MotivoCitas'));
     }
 
     public function store()
@@ -74,7 +74,7 @@ class CreaUsuarioComponent extends Component
                 'email' => 'required|email|unique:users',
                 'password' => 'required',
                 'rol' => 'required',
-                'especialidadMedico' => 'required',
+                //'especialidadMedico' => 'required',
                 'asuntosCita' => 'required'
             ]);
         }
@@ -97,15 +97,15 @@ class CreaUsuarioComponent extends Component
 
         if ($this->rol == 2) {
             $medico = Medico::create([
-                'id_especialidad' => $this->especialidadMedico,
+                //'id_especialidad' => $this->especialidadMedico,
                 'id_user' => $userRolPaciente->id,
                 'photo' => 'fotos/personPerfil.png',
             ]);
 
             foreach ($this->asuntosCita as $asuntosCita) {
-                Motivo_citas_has__especialidad::create([
+                Motivo_citas_has_medico::create([
                     'MOTIVO_CITAS_id' => $asuntosCita,
-                    'ESPECIALIDADS_id' => $this->especialidadMedico,
+                    /* 'ESPECIALIDADS_id' => $this->especialidadMedico, */
                     'MEDICOS_id' => $medico->id
                 ]);
             }

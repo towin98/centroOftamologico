@@ -31,7 +31,7 @@ class MedicosController extends Controller
         $menu = 'medicos-centro';
         $medicos = DB::table('medicos')
             ->join('users', 'medicos.id_user', '=', 'users.id')
-            ->select('users.name', 'users.lastname', 'users.photo')
+            ->select('users.name', 'users.lastname', 'users.photo', 'users.email')
             ->get();
         return view('medico.medicos-perfil', compact('menu', 'medicos'));
     }
@@ -66,7 +66,8 @@ class MedicosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($idmedico, $day)
-    //buscamos las horas disponibles por medico 
+    //buscamos las horas disponibles por medico -->revisar
+    
     {
         $resul = Cita::withTrashed()->selectRaw('TIME(start) AS start')
             ->where('id_medico', $idmedico)
@@ -111,12 +112,13 @@ class MedicosController extends Controller
     public function mostrarMedicosEvento($id_motivoCita)
     {
         try {
-            //SELECT medicos.id,users.name FROM `motivo_citas_has__especialidads` INNER JOIN medicos ON motivo_citas_has__especialidads.MEDICOS_id = medicos.id INNER JOIN users ON users.id = medicos.id_user WHERE motivo_citas_has__especialidads.MOTIVO_CITAS_id = 7
-            $medicos = DB::table('motivo_citas_has__especialidads')
-                ->join('medicos', 'motivo_citas_has__especialidads.MEDICOS_id', '=', 'medicos.id')
+            //SELECT medicos.id,users.name FROM `motivo_citas_has_medico` INNER JOIN medicos ON motivo_citas_has_medico.MEDICOS_id = medicos.id INNER JOIN users ON users.id = medicos.id_user WHERE motivo_citas_has_medico.MOTIVO_CITAS_id = 7
+            $medicos = DB::table('motivo_citas_has_medico')
+                ->join('motivo_citas', 'motivo_citas.id', '=', 'motivo_citas_has_medico.MOTIVO_CITAS_id')
+                ->join('medicos', 'motivo_citas_has_medico.MEDICOS_id', '=', 'medicos.id')
                 ->join('users', 'users.id', '=', 'medicos.id_user')
-                ->where('motivo_citas_has__especialidads.MOTIVO_CITAS_id', $id_motivoCita)
-                ->select('medicos.id', 'users.name', 'users.lastname')
+                ->where('motivo_citas_has_medico.MOTIVO_CITAS_id', $id_motivoCita)
+                ->select('medicos.id', 'users.name', 'users.lastname', 'motivo_citas.duracionCita' )
                 ->get();
             return response()->json($medicos);
         } catch (Throwable $th) {
